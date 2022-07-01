@@ -8,9 +8,9 @@ public class Driver {
 	public static void main(String[] args) {		
 		//accounts
 		ArrayList<Account>acc = new ArrayList<Account>();
-		Account  a = new Account("admin","1234");
+		Account  a = new Account("admin","1234","Manager");
 		Account e = new Account("Emp", "qwer1234");
-		Account  m = new Account("Man","password");
+		Account  m = new Account("Man","password","Manager");
 		acc.add(a);
 		acc.add(e);
 		acc.add(m);

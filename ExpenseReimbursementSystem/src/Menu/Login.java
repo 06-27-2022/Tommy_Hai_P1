@@ -49,7 +49,7 @@ public class Login extends Menu{
 	/*
 	 * login through console
 	 */
-	private void login() {
+	public void login() {
 		System.out.println("Username:");
 		String user = input();
 		System.out.println("Password:");
@@ -72,7 +72,7 @@ public class Login extends Menu{
 	 * returns Account if username and password match an account in acc arraylist
 	 * returns null if the user does not exist or password does not match
 	 */
-	public Account signIn(String username,String password) {
+	protected Account signIn(String username,String password) {
 		//checks if user exists
 		Account user=searchUser(username);
 		if(user==null)
@@ -84,31 +84,10 @@ public class Login extends Menu{
 		return null;
 	}
 
-	public boolean createAccount(String username, String password,String role) {
-		if(searchUser(username)!=null)
-			return false;
-			
-		if(role.equalsIgnoreCase("Manager"))
-			acc.add(new Manager(username,password));
-		else
-			acc.add(new Employee(username,password));
-		return true;
-	}
-
-	/*
-	 * if the username isn't already taken
-	 * creates an account in the acc arraylist
-	 * returns true if an account is created
-	 * returns false if an account is not created
-	 */
-	public boolean createAccount(String username, String password) {
-		return createAccount(username,password,"Employee");
-	}
-
 	/*
 	 * create account through console
 	 */
-	private void createAccount() {
+	public void createAccount() {
 		System.out.println("Username:");
 		String user = input();
 		System.out.println("Password:");
@@ -122,12 +101,21 @@ public class Login extends Menu{
 			System.out.println("Account name unavailable");	
 	}
 
+	protected boolean createAccount(String username, String password,String role) {
+		if(searchUser(username)!=null)
+			return false;
+		if(role.equalsIgnoreCase("Manager"))
+			acc.add(new Account(username,password,"Manager"));
+		else
+			acc.add(new Account(username,password));
+		return true;
+	}
 	/*
 	 * Searches acc arraylist for an account using
 	 * the username provided
 	 * returns the account if a match is found
 	 */
-	private Account searchUser(String username) {
+	protected Account searchUser(String username) {
 		for(Account a:acc)
 			if(a.getName().equals(username))
 				return a;
@@ -137,14 +125,14 @@ public class Login extends Menu{
 	/*
 	 * returns the acc arraylist
 	 */
-	public ArrayList<Account>getAccounts() {
+	protected ArrayList<Account>getAccounts() {
 		return acc;
 	}
 	
 	/*
 	 * replaces the acc arraylist with the one provided
 	 */
-	public void setAccounts(ArrayList<Account>accounts) {
+	protected void setAccounts(ArrayList<Account>accounts) {
 		acc=accounts;
 	}
 

@@ -38,13 +38,14 @@ public class Account{
 
 	//role
 	public void setRole(String role) {
-		String[]roles= {"Employee", "Manager"};
-		for(String r:roles)
-			if(r.equalsIgnoreCase(role)) {
-				this.role=role;
-				return;
-			}
-		role=roles[0];
+//		String[]roles= {"Employee", "Manager"};
+//		for(String r:roles)
+//			if(r.equalsIgnoreCase(role)) {
+//				this.role=role;
+//				return;
+//			}
+//		role=roles[0];
+		this.role=role;
 	}	
 	public String getRole() {
 		return role;
@@ -54,9 +55,13 @@ public class Account{
 	public ArrayList<Ticket>getTickets(){
 		return tickets;
 	}
+	//get pending tickets
 	public ArrayList<Ticket>getPendingTickets(){
-		for(Ticket t:)
-		return tickets;
+		ArrayList<Ticket>pending=new ArrayList<Ticket>();
+		for(Ticket t:tickets)
+			if(t.getStatus().equalsIgnoreCase("Pending"))
+				pending.add(t);
+		return pending;
 	}
 	//add ticket t to tickets arraylist
 	public void addTickets(Ticket t) {

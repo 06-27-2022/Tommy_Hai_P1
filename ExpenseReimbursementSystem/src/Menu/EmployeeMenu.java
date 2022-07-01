@@ -1,5 +1,4 @@
 package Menu;
-import java.io.*;
 import java.util.*;
 import Account.*;
 
@@ -11,25 +10,18 @@ public class EmployeeMenu extends Menu{
 	public EmployeeMenu(Account account){
 		this.acc = account;
 		tickets = acc.getTickets();
+		menuOptions=new String[3];
+		menuOptions[0]="Exit";
+		menuOptions[1]="Submit Ticket";
+		menuOptions[2]="View Ticket";
 	}
 	
-	/*
-	 * adds a ticket to the tickets arraylist
-	 */
-	public void submitTicket(double amount, String description){
-		tickets.add(new Ticket(amount,description));
-	}
-	public void submitTicket(Ticket ticket){
-		tickets.add(ticket);
-	}
-
 	/*
 	 * 0)exit
 	 * 1)submit ticket
 	 */
 	public void traverse() {
 		String option = "";
-		
 		while(!option.equalsIgnoreCase("logout")) {
 			System.out.println("Employee Menu\nOptions: Logout, Ticket, View");
 			option = input();
@@ -41,8 +33,12 @@ public class EmployeeMenu extends Menu{
 				viewTickets();
 		}
 	}
-	
-	private void ticket() {
+
+	public String input() {
+		return consoleInput();
+	}
+
+	public void ticket() {
 		//get amount
 		double amount = -1;			
 		while(amount<0) {
@@ -60,28 +56,27 @@ public class EmployeeMenu extends Menu{
 		String desc = input();
 		
 		System.out.println("Ticket: "+amount+"|"+desc);
-
+	
 		//submit ticket
 		submitTicket(amount,desc);		
 	}
-	private void viewTickets() {
+
+	public void viewTickets() {
 		System.out.println("Tickets:");
 		for(Ticket t:tickets) {
 			t.print();
 			System.out.println();
 		}
 	}
+
+	/*
+	 * adds a ticket to the tickets arraylist
+	 */
+	protected void submitTicket(double amount, String description){
+		tickets.add(new Ticket(amount,description));
+	}
 	
-	public String input() {
-		//console input
-		//Scanner in = new Scanner(System.in);
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		String str;
-		try {
-			str = in.readLine();
-		} catch (IOException e) {
-			str=null;
-		}
-		return str;		
+	protected void submitTicket(Ticket ticket){
+		tickets.add(ticket);
 	}
 }
