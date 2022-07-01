@@ -47,7 +47,7 @@ public class Ticket {
 		System.out.println("Amount: "+amount);
 		System.out.println("Description: "+desc);
 		System.out.println("Status: "+getStatus());
-		System.out.println("Type: "+getStatus());
+		System.out.println("Type: "+getType());
 		System.out.println("Image: "+getImage());
 	}
 	

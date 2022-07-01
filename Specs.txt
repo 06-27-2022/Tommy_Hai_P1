@@ -1,0 +1,86 @@
+Log in
+-------
+input
+-Username 
+-password 
+
+Register New Account
+---------------------
+-username cannot be taken
+-employee role default
+
+
+Employee
+---------
+tickets
+-can submit ticket
+-must have amount
+-must have description
+
+bonus
+-can view ticket submissions
+-can filter by pending, approved, or denied status
+-tickets types
+	-Travel, Lodging, Food, Other
+	-can filter by type
+-add images to ticket
+	-recipts
+	-upload and store images in SQL or cloud storage
+	
+	
+Manager
+--------
+tickets
+-Approved or Denied
+-cannot change status after processing
+
+bonus
+-change other user's roles
+
+User Profile/Account Page
+--------------------------
+bonus
+-track additional user information
+	-name, address, etc
+-users can edit their account
+-users can add profile picture
+
+
+---------------------------------------------------------------------------------
+Menus
+---------------------------------------------------------------------------------
+
+Login 
+------
+varibles
+-list accounts
+
+methods
+-sign in		(user, pass)
+-create account	(user, pass)
+
+
+EmployeeMenu
+-------------
+varibles
+-account
+-list tickets
+
+methods
+-submit ticket	(all ticket prameters)
+-view ticket	(void)
+
+
+ManagerMenu
+------------
+variables
+-list accounts
+-list tickets
+
+methods
+-manage ticket 	(should show pending tickets)
+-change roles	(setting to new account won't work, data within the account is free game though)
+
+-----------------------------------------------------------------------
+Accounts
+----------------------------------------------------------------------

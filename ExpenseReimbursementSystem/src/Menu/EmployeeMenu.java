@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 import Account.*;
 
-public class EmployeeMenu implements Menu{
+public class EmployeeMenu extends Menu{
 	
 	protected Account acc;
 	protected ArrayList<Ticket>tickets;
