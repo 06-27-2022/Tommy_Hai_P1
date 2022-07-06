@@ -8,6 +8,7 @@ public class Ticket {
 	protected byte status;
 
 	//bonus
+	final String user;
 	final String type;
 	final String image;
 	
@@ -17,13 +18,14 @@ public class Ticket {
 	 * -description
 	 * -status
 	 */
-	public Ticket(double amount, String description){
-		this.amount=(double)((int)(amount*100))/100;
-		desc=description;
-		status = 0;
-		type="undefined";
-		image="undefined";
-	}
+//	public Ticket(double amount, String description){
+//		this.amount=(double)((int)(amount*100))/100;
+//		desc=description;
+//		status = 0;
+//		this.user = "undefined";
+//		type="undefined";
+//		image="undefined";
+//	}
 
 	/*
 	 * bonus
@@ -33,10 +35,11 @@ public class Ticket {
 	 * -type
 	 * -image
 	 */
-	public Ticket(double amount, String description, String type, String image){
+	public Ticket(double amount, String description, String user, String type, String image){
 		this.amount=(double)((int)(amount*100))/100;
 		desc=description;
 		status = 0;
+		this.user = user;
 		this.type=type;
 		this.image=image;
 	}
@@ -49,6 +52,7 @@ public class Ticket {
 		System.out.println("Status: "+getStatus());
 		System.out.println("Type: "+getType());
 		System.out.println("Image: "+getImage());
+		System.out.println("User: "+getUser());
 	}
 	
 	/*
@@ -95,7 +99,12 @@ public class Ticket {
 		else
 			return "Pending";
 	}
-	
+	/*
+	 * returns username of account who submitted this ticket
+	 */
+	public String getUser() {
+		return user;
+	}	
 	/*
 	 *Travel, Lodging, Food, Other 
 	 */

@@ -5,21 +5,47 @@ import java.util.*;
 
 public class Driver {
 	
+	public static Account generateAccount(int x) {
+
+		//account parameters
+		String name = ""+x;
+		String pass = ""+x;
+		String role;
+		if(Math.random()>0.5)
+			role = "Manager";
+		else
+			role="Employee";
+		
+		//create and return
+		Account a = new Account(name, pass, role);
+		return a;
+	}
+	public static Ticket generateTicket(Account a) {
+		double value = Math.random()*(100);
+		String desc = "test"+Math.random();
+		Ticket t = new Ticket(value,desc,a.getName(),"Other","N/A");
+		return t;
+	}
+	
+	
 	public static void main(String[] args) {		
 		//accounts
 		ArrayList<Account>acc = new ArrayList<Account>();
-		Account  a = new Account("admin","1234","Manager");
-		Account e = new Account("Emp", "qwer1234");
-		Account  m = new Account("Man","password","Manager");
-		acc.add(a);
+		Account  m = new Account("m","m","Manager");
+		Account e = new Account("e", "e","Employee");
 		acc.add(e);
 		acc.add(m);
 		
-		//tickets
-		Ticket t = new Ticket(1234.2345,"bqwerqwejkg");
-		e.getTickets().add(t);
-		t = new Ticket(0.6789,"q");
-		acc.get(0).getTickets().add(t);
+		int numofaccounts=3;
+		int numoftickets=1;
+		for(int i =0;i<numofaccounts;i++){
+			Account a = generateAccount(i);
+			for(int j =0;j<numoftickets;j++){
+				Ticket t = generateTicket(a);
+				a.addTickets(t);
+			}	
+			acc.add(a);
+		}
 		
 		
 		Menu login = new Login(acc);

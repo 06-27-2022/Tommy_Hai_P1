@@ -7,18 +7,14 @@ public class Account{
 	protected String password;
 	protected String role;
 	protected ArrayList<Ticket>tickets;
+	protected Profile profile;
 	
-	public Account(String name, String password) {
-		setName(name);
-		setPassword(password);
-		setRole("Employee");
-		tickets=new ArrayList<Ticket>();
-	}
 	public Account(String name, String password, String role) {
 		setName(name);
 		setPassword(password);
 		setRole(role);
 		tickets=new ArrayList<Ticket>();
+		profile = new Profile(name,"N/A","N/A");
 	}	
 	//user name
 	public void setName(String name){
@@ -38,18 +34,19 @@ public class Account{
 
 	//role
 	public void setRole(String role) {
-//		String[]roles= {"Employee", "Manager"};
-//		for(String r:roles)
-//			if(r.equalsIgnoreCase(role)) {
-//				this.role=role;
-//				return;
-//			}
-//		role=roles[0];
 		this.role=role;
 	}	
 	public String getRole() {
 		return role;
 	}
+	
+	//profile
+	public void setProfile(Profile profile) {
+		this.profile=profile;
+	}	
+	public Profile getProfile() {
+		return profile;
+	}	
 	
 	//get tickets
 	public ArrayList<Ticket>getTickets(){

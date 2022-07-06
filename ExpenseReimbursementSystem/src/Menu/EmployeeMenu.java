@@ -4,43 +4,45 @@ import Account.*;
 
 public class EmployeeMenu extends Menu{
 	
-	protected Account acc;
+	protected Account Account;
 	protected ArrayList<Ticket>tickets;
-	
-	public EmployeeMenu(Account account){
-		this.acc = account;
-		tickets = acc.getTickets();
-		menuOptions=new String[3];
-		menuOptions[0]="Exit";
+	ArrayList<Account>Accounts;
+	public EmployeeMenu(Account account,ArrayList<Account>accounts){
+		this.Account = account;
+		this.Accounts=accounts;
+		tickets = Account.getTickets();
+		menuOptions=new String[4];
+		menuOptions[0]="Logout";
 		menuOptions[1]="Submit Ticket";
 		menuOptions[2]="View Ticket";
+		menuOptions[3]="View Profile";
 	}
 	
 	/*
-	 * 0)exit
-	 * 1)submit ticket
+	 * exit
+	 * submit ticket
+	 * view ticket
 	 */
 	public void traverse() {
-		String option = "";
-		while(!option.equalsIgnoreCase("logout")) {
-			System.out.println("Employee Menu\nOptions: Logout, Ticket, View");
-			option = input();
-			//logout
-			//submit ticket
-			if(option.equalsIgnoreCase("ticket"))
-				ticket();
-			else if(option.equalsIgnoreCase("view"))
-				viewTickets();
-		}
+		consoleTraverse();
 	}
 
 	public String input() {
 		return consoleInput();
 	}
 
-	public void ticket() {
-		//get amount
+	public void submitTicket() {
+		
+		//mandatory
 		double amount = -1;			
+		String desc;
+		
+		//bonus
+		String user=Account.getName();
+		String type = null;
+		String image;
+		
+		//get amount
 		while(amount<0) {
 			System.out.println("Amount:");
 			String str = input();
@@ -53,12 +55,37 @@ public class EmployeeMenu extends Menu{
 		}
 		//get description
 		System.out.println("Description:");
-		String desc = input();
+		desc = input();
+		
+		//get type Travel, Lodging, Food, Other 
+		String[]types = {"Travel", "Lodging", "Food", "Other"};
+		boolean repeat=true;
+		while(repeat) {
+			//prompt
+			System.out.print("Type:\n/");
+			for(String t:types)
+				System.out.print(t+"/");
+			System.out.println();
+			
+			//input
+			type=input();
+			for(String t:types)	{			
+				if(t.equalsIgnoreCase(type)) {
+					repeat=false;
+					type=t;
+				}
+			}
+		}
+		
+		//get image
+		System.out.println("Image:");
+		image=input();
 		
 		System.out.println("Ticket: "+amount+"|"+desc);
-	
+		
 		//submit ticket
-		submitTicket(amount,desc);		
+		Ticket t = new Ticket(amount,desc,user, type, image);
+		tickets.add(t);
 	}
 
 	public void viewTickets() {
@@ -68,15 +95,32 @@ public class EmployeeMenu extends Menu{
 			System.out.println();
 		}
 	}
-
-	/*
-	 * adds a ticket to the tickets arraylist
-	 */
-	protected void submitTicket(double amount, String description){
-		tickets.add(new Ticket(amount,description));
+	public void viewProfile() {
+		Menu profile1 = new ProfileMenu(Account,Accounts);
+		profile1.traverse();
 	}
 	
-	protected void submitTicket(Ticket ticket){
-		tickets.add(ticket);
+	@Override
+	protected void consoleTraverse() {
+		boolean exit=false;
+		while(!exit) {
+			int option = consoleSelect();
+			switch(option) {
+				case 0:
+					exit=true;
+				break;
+				case 1:
+					submitTicket();
+				break;
+				case 2:
+					viewTickets();
+				break;
+				case 3:
+					viewProfile();
+				default:
+					System.out.println("Error");
+			}
+		}
 	}
+
 }

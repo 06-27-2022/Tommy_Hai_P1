@@ -20,9 +20,65 @@ public class Login extends Menu{
 	}
 	
 	public void traverse() {
+		consoleTraverse();
+	}
+	
+	/*
+	 * using console for input
+	 */
+	public String input() {
+		return consoleInput();
+	}
+	
+	/*
+	 * login through console
+	 */
+	public void login() {
+		//get credentials
+		System.out.println("Username:");
+		String user = input();
+		System.out.println("Password:");
+		String pass = input();
+
+		//get account
+		Account acc = getAccount(user,pass);
+		if(acc!=null ) {
+			System.out.println("Welcome "+acc.getName()+"\nRole:"+acc.getRole());
+			Menu menu;
+			if(acc.getRole().equals("Manager"))
+				menu=new ManagerMenu(acc,this.acc);
+			else
+				menu=new EmployeeMenu(acc,this.acc);
+			menu.traverse();
+		}
+		else
+			System.out.println("User and Password combination do not exist");
+	}
+
+	/*
+	 * create account through console
+	 */
+	public void createAccount() {
+		//get credentials
+		System.out.println("Username:");
+		String user = input();
+		System.out.println("Password:");
+		String pass = input();
+		System.out.println("Role:");
+		String role= input();
+		
+		//create account
+		boolean success = createAccount(user,pass,role);
+		if(success)
+			System.out.println("Account creation successful");
+		else
+			System.out.println("Account name unavailable");	
+	}
+
+	protected void consoleTraverse() {
 		boolean exit=false;
 		while(!exit) {
-			int option = consoleTraverse();
+			int option = consoleSelect();
 			switch(option) {
 				case 0:
 					exit=true;
@@ -40,41 +96,12 @@ public class Login extends Menu{
 	}
 
 	/*
-	 * using console for input
-	 */
-	public String input() {
-		return consoleInput();
-	}
-	
-	/*
-	 * login through console
-	 */
-	public void login() {
-		System.out.println("Username:");
-		String user = input();
-		System.out.println("Password:");
-		String pass = input();
-		Account acc = signIn(user,pass);
-		if(acc!=null ) {
-			System.out.println("Welcome "+acc.getName()+"\nRole:"+acc.getRole());
-			Menu menu;
-			if(acc.getRole().equals("Manager"))
-				menu=new ManagerMenu(acc,this.acc);
-			else
-				menu=new EmployeeMenu(acc);
-			menu.traverse();
-		}
-		else
-			System.out.println("User and Password combination do not exist");
-	}
-
-	/*
 	 * returns Account if username and password match an account in acc arraylist
 	 * returns null if the user does not exist or password does not match
 	 */
-	protected Account signIn(String username,String password) {
+	protected Account getAccount(String username,String password) {
 		//checks if user exists
-		Account user=searchUser(username);
+		Account user=searchAccount(username);
 		if(user==null)
 			return null;
 		
@@ -85,43 +112,29 @@ public class Login extends Menu{
 	}
 
 	/*
-	 * create account through console
-	 */
-	public void createAccount() {
-		System.out.println("Username:");
-		String user = input();
-		System.out.println("Password:");
-		String pass = input();
-		System.out.println("Role:");
-		String role= input();
-		boolean success = createAccount(user,pass,role);
-		if(success)
-			System.out.println("Account creation successful");
-		else
-			System.out.println("Account name unavailable");	
-	}
-
-	protected boolean createAccount(String username, String password,String role) {
-		if(searchUser(username)!=null)
-			return false;
-		if(role.equalsIgnoreCase("Manager"))
-			acc.add(new Account(username,password,"Manager"));
-		else
-			acc.add(new Account(username,password));
-		return true;
-	}
-	/*
 	 * Searches acc arraylist for an account using
 	 * the username provided
 	 * returns the account if a match is found
 	 */
-	protected Account searchUser(String username) {
+	protected Account searchAccount(String username) {
 		for(Account a:acc)
 			if(a.getName().equals(username))
 				return a;
 		return null;
 	}
-	
+
+	/*
+	 * Creates a new Account
+	 */
+	protected boolean createAccount(String username, String password,String role) {
+		if(searchAccount(username)!=null)
+			return false;
+		if(role.equalsIgnoreCase("Manager"))
+			acc.add(new Account(username,password,"Manager"));
+		else
+			acc.add(new Account(username,password,"Employee"));
+		return true;
+	}
 	/*
 	 * returns the acc arraylist
 	 */

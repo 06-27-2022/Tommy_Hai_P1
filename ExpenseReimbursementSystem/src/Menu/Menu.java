@@ -13,13 +13,16 @@ public abstract class Menu {
 	 */
 	public abstract void traverse();
 	public abstract String input();
-	
 
+	/*
+	 * traverse through menu options
+	 */
+	protected abstract void consoleTraverse();
 	/*
 	 * traverse menu through console
 	 * returns 0 if menu options are empty
 	 */
-	public int consoleTraverse() {
+	protected int consoleSelect() {
 		int length = menuOptions.length;
 		int option=-1;
 		
@@ -50,7 +53,7 @@ public abstract class Menu {
 	/*
 	 * input string in console
 	 */	
-	public String consoleInput() {
+	protected String consoleInput() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String str;
 		try {
