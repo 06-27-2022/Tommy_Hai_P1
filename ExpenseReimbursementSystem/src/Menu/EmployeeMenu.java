@@ -15,7 +15,7 @@ public class EmployeeMenu extends Menu{
 		menuOptions[0]="Logout";
 		menuOptions[1]="Submit Ticket";
 		menuOptions[2]="View Ticket";
-		menuOptions[3]="View Profile";
+		menuOptions[3]="Profile";
 	}
 	
 	/*
@@ -105,22 +105,37 @@ public class EmployeeMenu extends Menu{
 		boolean exit=false;
 		while(!exit) {
 			int option = consoleSelect();
-			switch(option) {
-				case 0:
-					exit=true;
-				break;
-				case 1:
-					submitTicket();
-				break;
-				case 2:
-					viewTickets();
-				break;
-				case 3:
-					viewProfile();
-				default:
-					System.out.println("Error");
-			}
+			exit = optionSelect(option);
+//			switch(option) {
+//				case 0:
+//					exit=true;
+//				break;
+//				case 1:
+//					submitTicket();
+//				break;
+//				case 2:
+//					viewTickets();
+//				break;
+//				case 3:
+//					viewProfile();
+//				default:
+//					System.out.println("Error");
+//			}
 		}
 	}
-
+	protected boolean optionSelect(int option) {
+		switch(option) {
+		case 0:
+			return true;
+		case 1:
+			submitTicket();
+		break;
+		case 2:
+			viewTickets();
+		break;
+		case 3:
+			viewProfile();		
+		}
+		return false;
+	}
 }

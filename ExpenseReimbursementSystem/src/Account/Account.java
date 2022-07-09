@@ -41,8 +41,10 @@ public class Account{
 	}
 	
 	//profile
-	public void setProfile(Profile profile) {
-		this.profile=profile;
+	public void setProfile(String name, String address, String picFilePath) {
+		profile.setName(name);
+		profile.setAddress(address);
+		profile.setPicture(picFilePath);
 	}	
 	public Profile getProfile() {
 		return profile;

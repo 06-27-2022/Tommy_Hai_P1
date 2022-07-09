@@ -189,30 +189,40 @@ public class ManagerMenu extends EmployeeMenu{
 		boolean exit=false;
 		while(!exit) {
 			int option = consoleSelect();
-			switch(option) {
-				case 0:
-					exit=true;
-				break;
-				case 1:
-					submitTicket();
-				break;
-				case 2:
-					viewTickets();
-					break;
-				case 3:
-					viewProfile();
-				break;
-				case 4:
-					processTicket();
-				break;
-				case 5:
-					editRoles();
-				break;
-				default:
-					System.out.println("Error");
-			}
+			exit = optionSelect(option);
+//			switch(option) {
+//				case 0:
+//					exit=true;
+//				break;
+//				case 1:
+//					submitTicket();
+//				break;
+//				case 2:
+//					viewTickets();
+//					break;
+//				case 3:
+//					viewProfile();
+//				break;
+//				case 4:
+//					processTicket();
+//				break;
+//				case 5:
+//					editRoles();
+//				break;
+//				default:
+//					System.out.println("Error");
+//			}
 		}
 	}
-
+	protected boolean optionSelect(int option) {
+		boolean b = super.optionSelect(option);
+		if(b)
+			return true;
+		if(option==menuOptions.length-2)
+			processTicket();
+		else if(option==menuOptions.length-1)
+			editRoles();
+		return false;
+	}
 	
 }

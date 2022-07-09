@@ -27,7 +27,7 @@ public class Ticket {
 //		image="undefined";
 //	}
 
-	/*
+	/**
 	 * bonus
 	 * -amount
 	 * -description
@@ -43,7 +43,7 @@ public class Ticket {
 		this.type=type;
 		this.image=image;
 	}
-	/*
+	/**
 	 * prints in console
 	 */
 	public void print() {
@@ -55,21 +55,35 @@ public class Ticket {
 		System.out.println("User: "+getUser());
 	}
 	
-	/*
+	/**
 	 * returns amount
 	 */
 	public double getAmount() {
 		return amount;
 	}
 	
-	/*
+	/**
 	 * returns description
 	 */
 	public String getDescription() {
 		return desc;
 	}
 	
-	/*
+	/**
+	 * returns status
+	 * 1  = Approved
+	 * -1 = Denied
+	 * 0  = Pending
+	 */
+	public String getStatus(){
+		if(status==1)
+			return "Approved";
+		else if(status==-1)
+			return "Denied";
+		else
+			return "Pending";
+	}
+	/**
 	 *will not change approval
 	 *if it has already been modified
 	 *1  = approved
@@ -85,34 +99,20 @@ public class Ticket {
 			status=-1;
 	}
 	
-	/*
-	 * returns status
-	 * 1  = Approved
-	 * -1 = Denied
-	 * 0  = Pending
-	 */
-	public String getStatus(){
-		if(status==1)
-			return "Approved";
-		else if(status==-1)
-			return "Denied";
-		else
-			return "Pending";
-	}
-	/*
+	/**
 	 * returns username of account who submitted this ticket
 	 */
 	public String getUser() {
 		return user;
 	}	
-	/*
+	/**
 	 *Travel, Lodging, Food, Other 
 	 */
 	public String getType() {
 		return type;
 	}
 	
-	/*
+	/**
 	 * Receipts
 	 * upload and store images in 
 	 * SQL or cloud storage

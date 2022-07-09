@@ -2,7 +2,6 @@ package Menu;
 import java.util.ArrayList;
 
 import Account.Account;
-import Account.Profile;
 
 public class ProfileMenu extends Menu {
 
@@ -46,7 +45,7 @@ public class ProfileMenu extends Menu {
 		String address = input();
 		System.out.println("Enter Picture");
 		String pic= input();
-		account.setProfile(new Profile(name,address,pic));
+		account.setProfile(name,address,pic);
 	}
 	protected void consoleTraverse() {
 		boolean exit=false;
