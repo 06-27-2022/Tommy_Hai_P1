@@ -8,23 +8,35 @@ public class Ticket {
 	protected byte Status;
 
 	//bonus
+	private final int ID;
+	private static int TicketCounter=0;
 	protected final String User;
 	protected final String Type;
+	//picture parameters
 	protected final Picture Pic;
-	private static int ID=0;
-	private int Width,Height;
+	protected int Width,Height;
 
+	/**
+	 * Tickets should be assigned to an Account. Managers cannot approve their own tickets.
+	 * @param amount the $amount displayed on the ticket. Will cut off decimals past the hundreds place
+	 * @param description description displayed on ticket
+	 * @param user username of account who submited the ticket
+	 * @param type The types are Travel, Lodging, Food, Other 
+	 * @param imageFilePath the file path of the image attached to the ticket
+	 */
 	public Ticket(double amount, String description, String user, String type, String imageFilePath){
 		this.Amount=(double)((int)(amount*100))/100;
 		Desc=description;
 		Status = 0;
 		User = user;
 		Type=type;
-		ID++;
+		ID=TicketCounter;
+		TicketCounter++;
 		Width=200;
 		Height=200;
-		Pic = new Picture(Width, Height,user+ID,imageFilePath);
+		Pic = new Picture(Width, Height,user+"("+ID+")",imageFilePath);
 	}
+	
 	/**
 	 * prints in console
 	 */
@@ -66,12 +78,10 @@ public class Ticket {
 		else
 			return "Pending";
 	}
+	
 	/**
-	 *will not change approval
-	 *if it has already been modified
-	 *1  = approved
-	 *-1 = denied
-	 *0  = pending
+	 *will not change approval if it has already been modified
+	 *@param approve true will approve the ticket, false will deny the ticket
 	 */
 	public void setStatus(boolean approve) {
 		if(Status!=0)
@@ -81,6 +91,9 @@ public class Ticket {
 		else
 			Status=-1;
 	}
+	public int getID() {
+		return ID;
+	}
 	
 	/**
 	 * returns username of account who submitted this ticket
@@ -88,6 +101,7 @@ public class Ticket {
 	public String getUser() {
 		return User;
 	}	
+	
 	/**
 	 *Travel, Lodging, Food, Other 
 	 */
@@ -101,7 +115,7 @@ public class Ticket {
 	 * SQL or cloud storage
 	 */
 	public String getImage() {
-		return Pic.Picture.getPath();
+		return Pic.getPictureFile().getPath();
 	}
 	
 	public static void main(String[]args) {
@@ -111,7 +125,7 @@ public class Ticket {
 		for(int i=0;i<tickets.length;i++) {
 			double amount = Math.random();
 			String desc="d-"+Math.random();
-			String user="u-"+i+" ";
+			String user="u-"+i;
 			String type="t-"+Math.random();
 			String image = "i-"+Math.random();
 			tickets[i]= new Ticket(amount,desc,user,type,image);

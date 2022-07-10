@@ -22,6 +22,12 @@ public class Profile {
 	protected String Address;
 	protected Picture profilePic;
 	
+	/**
+	 * Profile attached to accounts. 1 profile assigned to 1 account
+	 * @param name displayed in the profile. Name used to initialize should be the name of the Account
+	 * @param address displayed in the profile.
+	 * @param pictureFilePath file path of profile picture
+	 */
 	public Profile(String name, String address, String pictureFilePath) {
 		ACCOUNTNAME=name;
 		PicX=200;
@@ -47,21 +53,36 @@ public class Profile {
 		this.Address=address;
 	}
 	
-	//print in console
+
+	/**
+	 * prints name, address, and picture filepath into the console
+	 * will also display the picture in a new window.
+	 */
 	public void print() {
 		System.out.println("Name:"+getName());
 		System.out.println("Address:"+getAddress());
-		System.out.println("Picture:"+getPicture());
+		System.out.println("Picture:"+getPicture().getName());
 		displayPicture();
 	}
 
-	//picture need to upgrade to class file
+	/**
+	 * used for the profile picture
+	 * @return The File object containing the saved profile picture
+	 */
 	public File getPicture() {
-		return profilePic.getPicture();
+		return profilePic.getPictureFile();
 	}	
+	/**
+	 * used for the profile picture
+	 * @param filePath The file path of the profile picture
+	 */
 	public void setPicture(String filePath) {
 		profilePic = new Picture(PicX, PicY, ACCOUNTNAME, filePath);
 	}
+	
+	/**
+	 * displays the profile picture in a new window
+	 */
 	public void displayPicture() {
 		profilePic.displayPicture();
 	}
@@ -70,7 +91,7 @@ public class Profile {
 		String name = "ProfileTest";
 		String address = "address";
 		//String filepath = "Screenshot (1).png";
-		String filepath = "No";
+		String filepath = "ProfileTet.png";
 		Profile test = new Profile(name,address,filepath);
 		
 		test.print();
