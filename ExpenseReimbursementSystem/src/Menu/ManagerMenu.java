@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class ManagerMenu extends EmployeeMenu{
 
 	//protected ArrayList<Account>accounts;
-	protected ArrayList<Ticket>tickets;
+	//protected ArrayList<Ticket>tickets;
 	
 	
 	public ManagerMenu(Account account, ArrayList<Account>accounts) {
 		super(account, accounts);
-		tickets=getPendingTickets();
+		//tickets=getPendingTickets();
 		String[]temp=menuOptions;
 		int length = menuOptions.length;
 		menuOptions=new String[length+2];
@@ -35,60 +35,63 @@ public class ManagerMenu extends EmployeeMenu{
 		return consoleInput();	
 	}
 
-	/*
+	/**
 	 * assign Approved/Denied status
 	 * to tickets arraylist
 	 */
-	public void processTicket() {	
-		
-		//no pending tickets
-		if(!checkPendingTickets())
-			return;
-		
-		//processed tickets
-		ArrayList<Ticket>processed=new ArrayList<Ticket>();
-		
-		//process pending tickets
-		for(Ticket t:tickets) {
-	
-			//check to make sure current user did not submit ticket t
-			if(t.getUser().equals(Account.getName())) {
-				System.out.println("Skipping ticket "+t.getDescription());
-				continue;
-			}
+	public void processTicket() {		
+		for(Account acc:Accounts) {
+
+			ArrayList<Ticket>pending=new ArrayList<Ticket>();
+			for(Ticket t:acc.getPendingTickets())
+				pending.add(t);
 			
-			String str="";
-			boolean b=true;
-			while(b) {
-				System.out.println("Pending Ticket:");
-				t.print();			
-				System.out.println("Approved/Denied/Exit");
-				str = input();
-				b=false;
-				
-				//approve ticket
-				if(str.equalsIgnoreCase("Approved")) {
-					t.setStatus(true);
-					processed.add(t);
-				}
-				//deny ticket
-				else if(str.equalsIgnoreCase("Denied")){
-					t.setStatus(false);
-					processed.add(t);
-				}
-				//return to menu
-				else if(str.equalsIgnoreCase("Exit")) {
-					update(processed);
-					return;							
-				}
-				//invalid input
-				else {
-					b=true;
-					System.out.println("Invalid Input");
-				}
-			}
-		}
-		update(processed);
+			//skips tickets if the account belongs to the one signed in
+			//skips if the account has no pending tickets
+			if(acc.equals(Account)||pending.isEmpty())
+				continue;
+			//proccessing pending tickets
+			for(Ticket t:pending) {
+				boolean wait=true;	
+				while(wait) {
+					//prompt
+					System.out.println("----------------------------------------");
+					t.print();
+					System.out.println("Approved/Denied/Exit");
+					//input
+					String str = input();
+					
+					//approve ticket
+					if(str.equalsIgnoreCase("Approved")) {
+						try {
+							acc.approveTicket(t, true);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}finally {
+							wait=false;
+						}
+					}
+					//deny ticket
+					else if(str.equalsIgnoreCase("Denied")) {
+						try {
+							acc.approveTicket(t, false);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}finally {
+							wait=false;
+						}
+					}
+					//return to menu
+					else if(str.equalsIgnoreCase("Exit")) 
+						return;
+					//invalid input
+					else 
+						System.out.println("Invalid Input");
+				}//finished reading inputs
+			}//finished iterating through tickets from account
+		}//finished iterating through all accounts
 	}
 
 	/*
@@ -127,19 +130,6 @@ public class ManagerMenu extends EmployeeMenu{
 	}
 	
 	/*
-	 * gets all pending tickets from the accounts arraylist
-	 */
-	protected ArrayList<Ticket> getPendingTickets() {
-		ArrayList<Ticket>tickets=new ArrayList<Ticket>();
-		for(Account a:Accounts) {
-			ArrayList<Ticket> pending = a.getPendingTickets();
-			for(Ticket t:pending) 
-				tickets.add(t);
-		}
-		return tickets;
-	}
-
-	/*
 	 * Searches acc arraylist for an account using
 	 * the username provided
 	 * returns the account if a match is found
@@ -151,38 +141,7 @@ public class ManagerMenu extends EmployeeMenu{
 		return null;
 	}
 	
-	/*
-	 * checks if there are any pending tickets
-	 * returns true if there are pending tickets
-	 * returns false if there are no pending tickets
-	 */
-	protected boolean checkPendingTickets() {
-		//no pending tickets
-		if(tickets.size()==0) {
-			//update tickets
-			tickets=getPendingTickets();
-			
-			//still no pending tickets
-			if(tickets.size()==0) {
-				System.out.println("No Pending Tickets");
-				return false;
-			}
-		}
-		//pending tickets
-		System.out.println("Pending Tickets Found");
-		return true;
-	}
-	/*
-	 *removes processed tickets from the tickets arraylist
-	 *which should leave behind only tickets that still have
-	 *pending status
-	 */
-	protected void update(ArrayList<Ticket>processedTickets) {
-		for(Ticket t:processedTickets) 
-			tickets.remove(t);
-	}
-	
-	/*
+	/**
 	 * traverse menu via console
 	 */
 	protected void consoleTraverse() {
@@ -199,7 +158,7 @@ public class ManagerMenu extends EmployeeMenu{
 			return true;
 
 		option=option-menuOptions.length+2;
-		System.out.println(option);
+		//System.out.println(option);
 		switch(option) {
 		case 0:
 			processTicket();
@@ -210,5 +169,4 @@ public class ManagerMenu extends EmployeeMenu{
 		}
 		return false;
 	}
-	
 }

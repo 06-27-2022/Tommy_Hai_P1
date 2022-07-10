@@ -5,12 +5,12 @@ import Account.*;
 public class EmployeeMenu extends Menu{
 	
 	protected Account Account;
-	protected ArrayList<Ticket>tickets;
+	//protected ArrayList<Ticket>tickets;
 	ArrayList<Account>Accounts;
 	public EmployeeMenu(Account account,ArrayList<Account>accounts){
 		this.Account = account;
 		this.Accounts=accounts;
-		tickets = Account.getTickets();
+		//tickets = Account.getTickets();
 		menuOptions=new String[4];
 		menuOptions[0]="Logout";
 		menuOptions[1]="Submit Ticket";
@@ -38,7 +38,6 @@ public class EmployeeMenu extends Menu{
 		String desc;
 		
 		//bonus
-		String user=Account.getName();
 		String type = null;
 		String image;
 		
@@ -84,15 +83,16 @@ public class EmployeeMenu extends Menu{
 		System.out.println("Ticket: "+amount+"|"+desc);
 		
 		//submit ticket
-		Ticket t = new Ticket(amount,desc,user, type, image);
-		tickets.add(t);
+		//Ticket t = new Ticket(amount,desc,user, type, image);
+		Account.addTicket(amount,desc,type,image);
+		//tickets.add(t);
 	}
 
 	public void viewTickets() {
 		System.out.println("Tickets:");
-		for(Ticket t:tickets) {
+		for(Ticket t:Account.getAllTickets()) {
 			t.print();
-			System.out.println();
+			System.out.println("=====");
 		}
 	}
 	public void viewProfile() {

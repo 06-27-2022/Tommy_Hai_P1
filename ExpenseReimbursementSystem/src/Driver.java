@@ -20,11 +20,11 @@ public class Driver {
 		Account a = new Account(name, pass, role);
 		return a;
 	}
-	public static Ticket generateTicket(Account a) {
+	public static void generateTicket(Account a) {
 		double value = Math.random()*(100);
-		String desc = "test"+Math.random();
-		Ticket t = new Ticket(value,desc,a.getName(),"Other","N/A");
-		return t;
+		String desc = "d"+Math.random();
+		//Ticket t = new Ticket(value,desc,a.getName(),"Other","N/A");
+		a.addTicket(value,desc,"Other","N/A");
 	}
 	
 	
@@ -36,13 +36,12 @@ public class Driver {
 		acc.add(e);
 		acc.add(m);
 		
-		int numofaccounts=3;
-		int numoftickets=1;
+		int numofaccounts=5;
+		int numoftickets=2;
 		for(int i =0;i<numofaccounts;i++){
 			Account a = generateAccount(i);
 			for(int j =0;j<numoftickets;j++){
-				Ticket t = generateTicket(a);
-				a.addTickets(t);
+				generateTicket(a);
 			}	
 			acc.add(a);
 		}
@@ -52,6 +51,7 @@ public class Driver {
 		login.traverse();
 
 		System.out.println("Close");
+		System.exit(0);
 	}
 
 }

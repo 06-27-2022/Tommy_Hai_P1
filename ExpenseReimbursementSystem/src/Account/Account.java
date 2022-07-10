@@ -3,18 +3,19 @@ package Account;
 import java.util.ArrayList;
 
 public class Account{
-	protected String Name;
-	protected String Password;
-	protected String Role;
-	protected ArrayList<Ticket>Tickets;
-	protected ArrayList<Ticket>PendingTickets;
-	protected Profile AccountProfile;
+	private String Name;
+	private String Password;
+	private String Role;
+	private ArrayList<Ticket>Tickets;
+	private ArrayList<Ticket>PendingTickets;
+	private Profile AccountProfile;
 	
 	public Account(String name, String password, String role) {
 		setName(name);
 		setPassword(password);
 		setRole(role);
 		Tickets=new ArrayList<Ticket>();
+		PendingTickets=new ArrayList<Ticket>();
 		AccountProfile = new Profile(name,"N/A","N/A");
 	}	
 	//user name
@@ -51,8 +52,11 @@ public class Account{
 		return AccountProfile;
 	}	
 	
-	//get tickets
-	public ArrayList<Ticket>getTickets(){
+	/**
+	 * All tickets submitted by this account
+	 * @return an arraylist containing processed and pending tickets
+	 */
+	public ArrayList<Ticket>getAllTickets(){
 		ArrayList<Ticket>allTickets=new ArrayList<Ticket>();
 		for(Ticket t:Tickets)
 			allTickets.add(t);
@@ -60,53 +64,82 @@ public class Account{
 			allTickets.add(t);
 		return allTickets;
 	}
-	//get pending tickets
+
+	/**
+	 * Only contains tickets that are pending
+	 * @return an arraylist of tickets with pending status
+	 */
 	public ArrayList<Ticket>getPendingTickets(){
-//		ArrayList<Ticket>pending=new ArrayList<Ticket>();
-//		for(Ticket t:Tickets)
-//			if(t.getStatus().equalsIgnoreCase("Pending"))
-//				pending.add(t);
-//		return pending;
 		return PendingTickets;
 	}
-	//add ticket t to tickets arraylist
-	public void addTickets(double amount, String description,String type, String filepath) {
+
+	/**
+	 * will create a new ticket and add it to the account's list of pending tickets
+	 * @param amount displayed on ticket
+	 * @param description displayed on ticket
+	 * @param type The types are Travel, Lodging, Food, Other 
+	 * @param filepath the filepath of image displayed on ticket
+	 */
+	public void addTicket(double amount, String description,String type, String filepath) {
 		Ticket t=new Ticket(amount, description, Name, type, filepath);
-		//Tickets.add(t);
+		PendingTickets.add(t);
+	}
+	
+	/**
+	 * will create a copy of the ticket to add to the list of pending tickets
+	 */
+	public void addTicket(Ticket ticket) {
+		double amount=ticket.getAmount();
+		String description=ticket.getDescription();
+		String type=ticket.getType();
+		String filepath=ticket.getImage();
+		Ticket t=new Ticket(amount, description, Name, type, filepath);
 		PendingTickets.add(t);
 	}
 
+	/**
+	 * approve or deny the provided ticket
+	 * @param t	the ticket being approved or denied
+	 * @param approve true=approve, false=deny
+	 * @throws Exception the ticket does not exist on this account
+	 */
 	public void approveTicket(Ticket t,boolean approve) throws Exception {
-		if(Tickets.contains(t)) {
-			if(approve) {
+		if(PendingTickets.contains(t)) {
+			if(approve)
 				t.setStatus(true);
-				PendingTickets.remove(t);
-				Tickets.add(t);
-			}
-			else if(!approve) {
+			else if(!approve)
 				t.setStatus(false);
-				PendingTickets.remove(t);
-				Tickets.add(t);
-			}
+			PendingTickets.remove(t);
+			Tickets.add(t);
 		}
 		else
 			throw new Exception("Ticket does not exist on this account");
 	}
 	public static void main(String[]args) {
 		Account acc = new Account("name", "pass", "e");
+		//submit tickets
 		for(int i=0;i<10;i++) {
 			double val=Math.random()*100;
-			String desc = "asdf";
-			String type = "asdf";
-			String path = "adsf";
-			acc.addTickets(val,desc,type,path);			
-			
-			//submit ticket
-			
-			//view tickets
-			
-			//approve ticket
+			String desc = "d"+Math.random();
+			String type = "t"+Math.random();
+			String path = "p"+Math.random();
+			acc.addTicket(val,desc,type,path);			
+		}		
+		System.out.println("======================================");
+		//view tickets
+		for(Ticket t:acc.getAllTickets())
+			t.print();
+		//approve ticket
+		for(Ticket t:acc.getPendingTickets()) {
+			if(0.5<Math.random())
+				t.setStatus(true);			
+			else
+				t.setStatus(false);
 		}
+		System.out.println("======================================");		
+		//view tickets
+		for(Ticket t:acc.getAllTickets())
+			t.print();
 		
 	}
 
