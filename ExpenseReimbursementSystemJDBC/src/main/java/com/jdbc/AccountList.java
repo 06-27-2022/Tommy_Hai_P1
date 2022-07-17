@@ -41,13 +41,11 @@ public class AccountList implements List<Account> {
 	 */
 	@Override
 	public boolean add(Account acc) {
-		return false;
+		final String SQL = "insert into account values(default,?,?,?)";
+						  //insert into account values(default,'test','test','Employee');
+		Object[]o= {acc.getName(),acc.getPassword(),acc.getRole()};
+		return ConnectionUtil.stmtExecute(SQL, o);
 	}
-//		final String SQL = "insert into account values(default,?,?,?)";
-//						  //insert into account values(default,'test','test','Employee');
-//		Object[]o= {acc.getName(),acc.getPassword(),acc.getRole()};
-//		return ConnectionUtil.stmtExecute(SQL, o);
-//	}
 	@Override
 	public Account get(int index) {
 		//final String SQL = "SELECT \"name\", \"pass\", \"role\" FROM account order by id asc limit 1 offset ?";

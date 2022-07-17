@@ -21,13 +21,17 @@ public class Account{
 	}	
 	public Account(String name,String password,String role) {
 		//insert into account ("name",pass,"role")values('asdf','asdf','Employee')returning id;
-		final String SQL = "insert into account (\"name\",pass,\"role\")values(?,?,?)returning id";
+		//final String SQL = "insert into account (\"name\",pass,\"role\")values(?,?,?)returning id";
 		if(role.equalsIgnoreCase("Manager"))
 			role="Manager";
 		else
 			role="Employee";
-		Object[]args= {name,password,role};
-		this.ACCOUNT_ID =(int)ConnectionUtil.stmtExecuteQuery2D(SQL, args)[0][0];
+		//Object[]args= {name,password,role};
+		//this.ACCOUNT_ID =(int)ConnectionUtil.stmtExecuteQuery2D(SQL, args)[0][0];
+		ACCOUNT_ID=-1;
+		Name=name;
+		Password=password;
+		Role=role;
 	}
 	private boolean local() {
 		if(ACCOUNT_ID==-1) {
@@ -118,7 +122,7 @@ public class Account{
 	}	
 	public String getRole() {
 		if(local()) {
-			return "Local Account";
+			return Role;
 		}
 		//select amount from ticket where id=1;
 		final String SQL="select \"role\" from account where id="+ACCOUNT_ID;
@@ -126,23 +130,29 @@ public class Account{
 	}
 	
 	/**
-	 * 
+	 * unimplemented
 	 * @param name
 	 * @param address
 	 * @param picFilePath
 	 * @return
 	 */
-//	public boolean setProfile(int profileID) {
-//		//update account set pass = 'test' where id=1;
-//		final String SQL="update account set name = ? where id="+ACCOUNT_ID;
-//		Object[]args= {profileID};
-//		return ConnectionUtil.stmtExecute(SQL,args);
-//	}	
-//	public int getProfile() {
-//		//select amount from ticket where id=1;
-//		final String SQL="select \"pass\" from account where id="+ACCOUNT_ID;
-//		return 0;//(String) ConnectionUtil.stmtExecuteQuery(SQL);
-//	}	
+	public boolean setProfile(int profileID) {
+		//TODO
+		//update account set pass = 'test' where id=1;
+		final String SQL="update account set name = ? where id="+ACCOUNT_ID;
+		Object[]args= {profileID};
+		return ConnectionUtil.stmtExecute(SQL,args);
+	}	
+	/**
+	 * unimplemented
+	 * @return
+	 */
+	public int getProfile() {
+		//TODO
+		//select amount from ticket where id=1;
+		final String SQL="select \"pass\" from account where id="+ACCOUNT_ID;
+		return (int) ConnectionUtil.stmtExecuteQuery(SQL);
+	}	
 	
 	/**
 	 * All tickets submitted by this account
@@ -166,13 +176,13 @@ public class Account{
 	 * approve or deny the provided ticket
 	 * @param t	the ticket being approved or denied
 	 * @param approve true=approve, false=deny
-	 * @throws Exception the ticket does not exist on this account
+	 * @return only returns true if the ticket table was changed
 	 */
-	public void approveTicket(Ticket t,boolean approve){
+	public boolean approveTicket(Ticket t,boolean approve){
 		if(local()) {
-			return;
+			return false;
 		}
-		t.setStatus(approve);
+		return t.setStatus(approve);
 	}
 	
 	public static void main(String[]args) {
