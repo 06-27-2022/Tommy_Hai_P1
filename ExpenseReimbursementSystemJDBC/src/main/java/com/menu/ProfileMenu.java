@@ -2,10 +2,13 @@ package com.menu;
 import java.util.List;
 
 import com.account.Account;
+import com.account.AccountRemote;
 import com.account.Picture;
 import com.account.PictureRemote;
 import com.account.Profile;
 import com.account.ProfileRemote;
+import com.jdbc.AccountList;
+import com.jdbc.ConnectionUtil;
 
 public class ProfileMenu extends Menu {
 
@@ -33,10 +36,40 @@ public class ProfileMenu extends Menu {
 	}
 
 	public void searchUser() {
-		//TODO searchUer
+
+		//search name
 		System.out.println("Enter Name");
+		String name = input();
+		
+		//select id from profile where "name"='qwer';
+		final String SQL="select account from profile where \"name\"=?";
+		Object o[][] = ConnectionUtil.stmtExecuteQuery2D(SQL, name);
+
+		//no users
+		if(o.length==0) {
+			System.out.println("No profiles found using the name "+name);
+			return;
+		}
+
+		//select user
+		System.out.print(o.length+" users have the name "+name+"\n/");
+		Account[]accounts=new AccountRemote[o.length];
+		for(int i=0;i<o.length;i++) {
+			accounts[i]=new AccountRemote((int)o[i][0]);
+			System.out.print(""+accounts[i].getName()+"/");
+		}		
 		String user = input();
-		System.out.println("Not implemented");
+		
+		//display profile of selected account
+		for(Account a:accounts) {
+			if(user.equalsIgnoreCase(a.getName())) {
+				System.out.println("Name:"+a.getProfile().getName());
+				System.out.println("Address:"+a.getProfile().getAddress());
+				a.getProfile().getPicture().displayPicture(200, 200);
+				return;
+			}
+		}
+		System.out.println("No selection made");
 	}
 	public void viewProfile() {
 		Account.getProfile().print();
@@ -74,6 +107,10 @@ public class ProfileMenu extends Menu {
 					System.out.println("Error");
 			}
 		}		
+	}
+	public static void main(String[]args) {
+		Menu m = new ProfileMenu(new AccountRemote(1),new AccountList());
+		m.traverse();
 	}
 
 }

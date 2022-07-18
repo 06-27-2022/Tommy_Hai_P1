@@ -170,6 +170,10 @@ public class ConnectionUtil {
 		Object[]args = {};
 		return stmtExecuteQuery2D(SQL,args);		
 	}
+	public static Object[][] stmtExecuteQuery2D(String SQL,Object arg) {
+		Object[]args = {arg};
+		return stmtExecuteQuery2D(SQL,args);		
+	}
 	/**
 	 * Runs a resultSet.
 	 * @param SQL used for a preparedstatement
