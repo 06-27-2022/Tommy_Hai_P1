@@ -1,8 +1,9 @@
 package com.menu;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.account.*;
+import com.account.Account;
+import com.account.Ticket;
+import com.account.TicketRemote;
 
 public class ManagerMenu extends EmployeeMenu{
 	
@@ -40,7 +41,7 @@ public class ManagerMenu extends EmployeeMenu{
 	public void processTicket() {		
 		for(int i=0;i<Accounts.size();i++) {
 			Account acc=Accounts.get(i);
-			List<Ticket>pending=acc.getPendingTickets();
+			List<Ticket>pending=acc.getTickets("p");
 			
 //			for(Ticket t:acc.getPendingTickets())
 //				pending.add(t);

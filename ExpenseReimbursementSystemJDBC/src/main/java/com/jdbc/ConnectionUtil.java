@@ -1,5 +1,8 @@
 package com.jdbc;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -107,69 +110,29 @@ public class ConnectionUtil {
 		}
 		return success;
 	}
-	
-	/**
-		 * insert into tablename values(args[0],args[1],etc)
-		 * executes a prepared statement using this sql line
-		 * @param tablename the name of the table being inserted into
-		 * @param args the supported types are: int, double, char(will be sent as a string), string, boolean
-		 * @throws SQLException 
-		 */
-	//	private static void insertInto(String tablename,Object[]args){
-	//		/*
-	//		 *construct SQL statement
-	//		 *
-	//		 *tablenames keep getting put inside 'tablename' so i have to insert it in manually instead
-	//		 *the function was changed from public to private so other functions will have to be 
-	//		 *responsible for inputing a propper tablename 
-	//		 *
-	//		 *the default keyword also has a similiar problem of being placed inside 'default'
-	//		 *forcing me to also insert it manually
-	//		 */
-	//		String sql ="insert into "+tablename+" values (";
-	//		List<Object>params=new ArrayList<Object>();
-	//		for(Object o:args) {
-	//			if(o.getClass()==String.class)
-	//				if(((String) o).equalsIgnoreCase("default"))
-	//					sql+="default,";
-	//				else{
-	//					sql+="?,";
-	//					params.add(o);
-	//				}
-	//			else{
-	//				sql+="?,";
-	//				params.add(o);
-	//			}
-	//		}		
-	//		sql=sql.substring(0, sql.length()-1)+")";
-	//		System.out.println(sql);
-	//		executeStatement(sql,params.toArray());
-	//	}
-	//	
-	//	//select * from
-	//	private static List<Object>selectFrom(Object[]args){
-	//		List<Object>result = new ArrayList<Object>();
-	//
-	//		
-	//		
-	//		return result;
-	//	}
-		
-		
-		
 		
 		/**
 		 * automatically selects the correct datatype for stmt.set___() 
 		 * supports int, double, char, string, boolean
 		 * chars will be submitted as a string
 		 * resultset causes exceptions when closing when trying to manully choose the type of set
+		 * only uses stmt.setObject for now
 		 * @param stmt The ProtectedStatement object you are trying to set
 		 * @param i The parameterindex for stmt
 		 * @param o	The object being set into stmt
 		 * @throws SQLException
 		 */
 		private static void setStatement(PreparedStatement stmt,int i,Object o) throws SQLException {		
-			stmt.setObject(i, o);
+			if(o.getClass().equals(File.class)) {
+				File f = (File)o;
+				try{
+					stmt.setBinaryStream(i,new FileInputStream(f),f.length());				
+				}catch(FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			else
+				stmt.setObject(i, o);
 		}
 //			if(o.getClass()==Integer.class)
 //				stmt.setInt(i,(int)o);
@@ -184,6 +147,7 @@ public class ConnectionUtil {
 //			else //avoid using this case, implement the missing type here instead
 //				stmt.setObject(i, o);
 //		}
+		
 	/**
 	 * Runs a ResultSet. Only works for querys requesting a single element
 	 * @param SQL
@@ -192,6 +156,13 @@ public class ConnectionUtil {
 	 */
 	public static Object stmtExecuteQuery(String SQL) {
 		Object[]args = {};
+		return stmtExecuteQuery2D(SQL,args)[0][0];
+	}
+	public static Object stmtExecuteQuery(String SQL,Object o) {
+		Object[]args = {o};
+		return stmtExecuteQuery2D(SQL,args)[0][0];
+	}
+	public static Object stmtExecuteQuery(String SQL, Object[]args) {
 		return stmtExecuteQuery2D(SQL,args)[0][0];
 	}
 	
@@ -262,6 +233,8 @@ public class ConnectionUtil {
 		}
 		else if(obj.getClass()==BigDecimal.class)
 			return set.getDouble(i);
+		else if(obj.getClass().toString().equalsIgnoreCase("class [B"))
+			return set.getBinaryStream(i);
 		return obj;
 	}
 	

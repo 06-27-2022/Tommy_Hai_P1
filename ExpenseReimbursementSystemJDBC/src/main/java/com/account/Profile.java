@@ -1,100 +1,41 @@
 package com.account;
 
-import java.io.File;
-import java.io.IOException;
+public interface Profile {
 
-/**
- * -track additional user information
-	-name, address, etc
-	-users can edit their account
-	-users can add profile picture
- */
-public class Profile {
-	
-	//first name sent when initialized
-	//used for naming local copy of picture
-	private final String ACCOUNTNAME;
-	
-	//dimensions of picture
-	private static int PicX, PicY;
-	
-	private String Name;
-	private String Address;
-	private Picture profilePic;
-	
-	/**
-	 * Profile attached to accounts. 1 profile assigned to 1 account
-	 * @param name displayed in the profile. Name used to initialize should be the name of the Account
-	 * @param address displayed in the profile.
-	 * @param pictureFilePath file path of profile picture
-	 */
-	public Profile(String name, String address, String pictureFilePath) {
-		ACCOUNTNAME=name;
-		PicX=200;
-		PicY=150;
-		setName(name);
-		setAddress(address);
-		setPicture(pictureFilePath);
-	}
-	
+	int getID();
+
+	int getAccountID();
+
 	//name
-	public String getName() {
-		return Name;
-	}
-	public void setName(String name) {
-		this.Name=name;
-	}
-	
+	String getName();
+
+	boolean setName(String name);
+
 	//address
-	public String getAddress() {
-		return Address;
-	}
-	public void setAddress(String address) {
-		this.Address=address;
-	}
-	
+	String getAddress();
+
+	boolean setAddress(String address);
+
+	String toString();
 
 	/**
 	 * prints name, address, and picture filepath into the console
 	 * will also display the picture in a new window.
 	 */
-	public void print() {
-		System.out.println("Name:"+getName());
-		System.out.println("Address:"+getAddress());
-		System.out.println("Picture:"+getPicture().getName());
-		displayPicture();
-	}
+	void print();
 
 	/**
 	 * used for the profile picture
 	 * @return The File object containing the saved profile picture
 	 */
-	public File getPicture() {
-		return profilePic.getPictureFile();
-	}	
+	int getImage();
+
 	/**
 	 * used for the profile picture
 	 * @param filePath The file path of the profile picture
 	 */
-	public void setPicture(String filePath) {
-		profilePic = new Picture(PicX, PicY, ACCOUNTNAME, filePath);
-	}
-	
-	/**
-	 * displays the profile picture in a new window
-	 */
-	public void displayPicture() {
-		profilePic.displayPicture();
-	}
-	
-	public static void main(String[]args) throws IOException {
-		String name = "ProfileTest";
-		String address = "address";
-		//String filepath = "Screenshot (1).png";
-		String filepath = "ProfileTet.png";
-		Profile test = new Profile(name,address,filepath);
-		
-		test.print();
-	}
-	
+	boolean setImage(String filePath);
+
+	Picture getPicture();
+
 }

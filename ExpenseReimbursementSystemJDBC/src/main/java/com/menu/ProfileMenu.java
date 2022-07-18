@@ -2,15 +2,19 @@ package com.menu;
 import java.util.List;
 
 import com.account.Account;
+import com.account.Picture;
+import com.account.PictureRemote;
+import com.account.Profile;
+import com.account.ProfileRemote;
 
 public class ProfileMenu extends Menu {
 
-	Account account;
-	List<Account>accounts;
+	Account Account;
+	List<Account>Accounts;
 	
 	public ProfileMenu(Account account, List<Account>accounts){
-		this.account=account;
-		this.accounts=accounts;	
+		this.Account=account;
+		this.Accounts=accounts;	
 		menuOptions=new String[4];
 		menuOptions[0]="Exit";
 		menuOptions[1]="Search User";
@@ -29,15 +33,15 @@ public class ProfileMenu extends Menu {
 	}
 
 	public void searchUser() {
+		//TODO searchUer
 		System.out.println("Enter Name");
 		String user = input();
-		for(Account a:accounts) 
-			if(a.getName().equals(user))
-				a.getProfile().print();
+		System.out.println("Not implemented");
 	}
 	public void viewProfile() {
-		account.getProfile().print();
+		Account.getProfile().print();
 	}
+	
 	public void editProfile() {
 		System.out.println("Enter Name");
 		String name = input();
@@ -45,7 +49,9 @@ public class ProfileMenu extends Menu {
 		String address = input();
 		System.out.println("Enter Picture");
 		String pic= input();
-		account.setProfile(name,address,pic);
+		Picture picture = new PictureRemote("Profile"+Account.getID(), pic);
+		Profile p = new ProfileRemote(Account.getID(),name,address,picture);
+		Account.setProfile(p);
 	}
 	protected void consoleTraverse() {
 		boolean exit=false;

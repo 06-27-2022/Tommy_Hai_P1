@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.account.Account;
+import com.account.AccountRemote;
 
 
 public class AccountList implements List<Account> {
@@ -37,7 +38,8 @@ public class AccountList implements List<Account> {
 	}
 	
 	/**
-	 * don't use this yet
+	 * will create a new account using the parameters of the one supplied
+	 * @param acc the account being cloned and added into the account table
 	 */
 	@Override
 	public boolean add(Account acc) {
@@ -53,7 +55,7 @@ public class AccountList implements List<Account> {
 		Object[]args= {index};
 		Object[][]a=ConnectionUtil.stmtExecuteQuery2D(SQL,args);
 		int id=(int)a[0][0];
-		return new Account(id);		
+		return new AccountRemote(id);		
 	}
 //		Connection conn=ConnectionUtil.getConnection();
 //		PreparedStatement stmt = null;
@@ -160,7 +162,7 @@ public class AccountList implements List<Account> {
 	}
 
 	@Override
-	public Account set(int index, Account element) {
+	public AccountRemote set(int index, Account element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -172,7 +174,7 @@ public class AccountList implements List<Account> {
 	}
 
 	@Override
-	public Account remove(int index) {
+	public AccountRemote remove(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}

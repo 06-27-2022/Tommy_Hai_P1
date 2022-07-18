@@ -2,7 +2,12 @@ package com.menu;
 import java.util.List;
 
 import com.account.Account;
+import com.account.AccountRemote;
+import com.account.Picture;
+import com.account.PictureRemote;
 import com.account.Ticket;
+import com.account.TicketRemote;
+import com.jdbc.AccountList;
 import com.jdbc.TicketList;
 
 public class EmployeeMenu extends Menu{
@@ -82,26 +87,48 @@ public class EmployeeMenu extends Menu{
 		
 		//get image
 		System.out.println("Image:");
-		//String image=input();
-		
-		System.out.println("Ticket: "+amount+"|"+desc);
+		String image=input();
+		Picture p = new PictureRemote("Ticket"+Account.getID(),image);
 		
 		//submit ticket
-		Ticket t = new Ticket(Account.getID(),amount,desc);
+		TicketRemote t = new TicketRemote(Account.getID(),amount,desc,type,p);
 		Tickets.add(t);
 		//tickets.add(t);
 	}
 
 	public void viewTickets() {
 		System.out.println("---Tickets---");
-		for(int i=0;i<Tickets.size();i++) {
-			Tickets.get(i).print();
-			System.out.println("=======");
+		System.out.println("/all/pending/approved/denied/");
+		String order=input();
+		List<Ticket>t;
+		if(order.equalsIgnoreCase("all")) {
+			for(int i=0;i<Tickets.size();i++) {
+				Tickets.get(i).print();
+				System.out.println("=======");
+			}
+		}else if(order.equalsIgnoreCase("pending")) {
+			t=new TicketList(Account.getID(),"p");
+			for(int i=0;i<t.size();i++) {
+				t.get(i).print();
+				System.out.println("=======");
+			}			
+		}else if(order.equalsIgnoreCase("approved")) {
+			t=new TicketList(Account.getID(),"a");
+			for(int i=0;i<t.size();i++) {
+				t.get(i).print();
+				System.out.println("=======");
+			}			
+		}else if(order.equalsIgnoreCase("denied")) {
+			t=new TicketList(Account.getID(),"d");
+			for(int i=0;i<t.size();i++) {
+				t.get(i).print();
+				System.out.println("=======");
+			}			
 		}
 	}
 	public void viewProfile() {
-		Menu profile1 = new ProfileMenu(Account,Accounts);
-		profile1.traverse();
+		Menu profile = new ProfileMenu(Account,Accounts);
+		profile.traverse();
 	}
 	
 	@Override
@@ -141,5 +168,9 @@ public class EmployeeMenu extends Menu{
 			viewProfile();		
 		}
 		return false;
+	}
+	public static void main(String[]args) {
+		EmployeeMenu m = new EmployeeMenu(new AccountRemote(1),new AccountList());
+		m.traverse();
 	}
 }

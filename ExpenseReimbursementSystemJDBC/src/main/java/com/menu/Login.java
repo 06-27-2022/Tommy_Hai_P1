@@ -133,9 +133,9 @@ public class Login extends Menu{
 		if(searchAccount(username)!=null)
 			return false;
 		if(role.equalsIgnoreCase("Manager"))
-			Accounts.add(new Account(username,password,"Manager"));
+			Accounts.add(new AccountRemote(username,password,"Manager"));
 		else
-			Accounts.add(new Account(username,password,"Employee"));
+			Accounts.add(new AccountRemote(username,password,"Employee"));
 		return true;
 	}
 	/*
