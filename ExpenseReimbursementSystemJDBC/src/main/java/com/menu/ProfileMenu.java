@@ -49,7 +49,7 @@ public class ProfileMenu extends Menu {
 		String address = input();
 		System.out.println("Enter Picture");
 		String pic= input();
-		Picture picture = new PictureRemote("Profile"+Account.getID(), pic);
+		Picture picture = new PictureRemote(Account.getName(), pic);
 		Profile p = new ProfileRemote(Account.getID(),name,address,picture);
 		Account.setProfile(p);
 	}

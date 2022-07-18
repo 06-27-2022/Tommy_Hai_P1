@@ -36,15 +36,15 @@ public class PictureRemote implements Picture {
 
 	//first name sent when initialized
 	//used for naming local copy of picture
-	private  String FILENAME;
-	private String EXTENSION;
-	private String FOLDER;
+	private String FILENAME;
+	private static String EXTENSION;
+	private static String FOLDER;
 	
 	public PictureRemote(int pictureID) {
 		PICTURE_ID=pictureID;
-	}
-	
-	
+		EXTENSION="png";
+		FOLDER="Images//";
+	}	
 	/**
 	 * the character : seems to cause issues
 	 * will have to look into input sanitization
@@ -62,11 +62,13 @@ public class PictureRemote implements Picture {
 		return false;
 	}
 	@Override
+	public String toString() {
+		return "PictureID:"+getID()+"|FileTotalSpace:"+getPictureFile().getTotalSpace();
+	}
+	@Override
 	public int getID() {
 		if(local())
 			return -1;
-		//final String SQL="select id from picture where id="+PICTURE_ID;
-		//return (int)ConnectionUtil.stmtExecuteQuery(SQL);
 		return PICTURE_ID;
 	}
 
@@ -96,12 +98,13 @@ public class PictureRemote implements Picture {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch(ArrayIndexOutOfBoundsException e){//the cell is null
-			// TODO Auto-generated catch block
-			//e.printStackTrace();			
-		}catch(NullPointerException e) {//inputstream returned nothing
-			//e.printStackTrace();
 		}
+//		catch(ArrayIndexOutOfBoundsException e){//the cell is null
+//			// TODO Auto-generated catch block
+//			//e.printStackTrace();			
+//		}catch(NullPointerException e) {//inputstream returned nothing
+//			//e.printStackTrace();
+//		}
 		return null;
 	}
 	
@@ -120,44 +123,35 @@ public class PictureRemote implements Picture {
 			ImageIO.write(bufferedImage, EXTENSION, outFile);
 			PictureFile=outFile;
 			if(local())
-				return true;
-			//changing in picture table
-			final String SQL="insert into picture values(default,?)";
-			File[]args= {PictureFile};
-			return ConnectionUtil.stmtExecute(SQL, args);		
-		} catch (IOException e) {
+				return false;
+		} catch (IOException e) {//file not found
+			PictureFile=generateFile();
+		}catch(IllegalArgumentException e) {
+			PictureFile=generateFile();			
+		}
+		if(local()) {return false;}
+		//changing in picture table
+		final String SQL="insert into picture values(default,?)";
+		File[]args= {PictureFile};
+		return ConnectionUtil.stmtExecute(SQL, args);		
+	}
+	private File generateFile() {
+		File outFile = new File(FOLDER+FILENAME+"."+EXTENSION);
+		try {//generate a file
+			ImageIO.write(generateBufferedImage(), EXTENSION, outFile);
+			PictureFile=outFile;
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
+			e1.printStackTrace();
+		}	
+		return outFile;
 	}
-	protected BufferedImage readFile(String pictureFilePath) {
-		File inFile;
-		BufferedImage bi;
-		try {
-			inFile = new File(pictureFilePath);
-			bi = ImageIO.read(inFile);
-		} catch (IOException e) {
-			try {
-				inFile = new File(FOLDER+pictureFilePath);
-				bi = ImageIO.read(inFile);				
-			}catch(IOException e1) {
-				bi=generateBufferedImage();
-				//System.out.println("File not found");
-			}
-		}catch(NullPointerException e2) {
-			bi=generateBufferedImage();
-			//System.out.println("File not found");
-		}
-		return bi;
-	}
-
 	/**
 	 * Generates a buffered image using Graphics2D from java.awt
 	 * used in the instance where the provided filepath does not point
 	 * to a valid file
 	 */
-	protected BufferedImage generateBufferedImage(){
+	private BufferedImage generateBufferedImage(){
 		int PicX=100, PicY=100;
 		// TYPE_INT_ARGB specifies the image format: 8-bit RGBA packed into integer pixels
 		BufferedImage bi = new BufferedImage(PicX, PicY, BufferedImage.TYPE_INT_ARGB);
@@ -200,6 +194,27 @@ public class PictureRemote implements Picture {
 	}
 
 
+	private BufferedImage readFile(String pictureFilePath) {
+		File inFile;
+		BufferedImage bi;
+		try {
+			inFile = new File(pictureFilePath);
+			bi = ImageIO.read(inFile);
+		} catch (IOException e) {
+			try {
+				inFile = new File(FOLDER+pictureFilePath);
+				bi = ImageIO.read(inFile);				
+			}catch(IOException e1) {
+				bi=generateBufferedImage();
+				//System.out.println("File not found");
+			}
+		}catch(NullPointerException e2) {
+			bi=generateBufferedImage();
+			//System.out.println("File not found");
+		}
+		return bi;
+	}
+
 	/**
 	 * will display the picture in a new window
 	 */
@@ -223,7 +238,7 @@ public class PictureRemote implements Picture {
 		frame.getContentPane().setSize(new Dimension(width,height));
 		frame.setSize(width, height);
 		frame.setAlwaysOnTop(true);
-		frame.pack();
+		//frame.pack();
 
 		//sets size of window
 //		frame.setLayout(new FlowLayout());
@@ -244,10 +259,10 @@ public class PictureRemote implements Picture {
 		return true;
 	}
 	public static void main(String[] args) {
-		PictureRemote p = new PictureRemote(1);
-		
-		System.out.println("ID:"+p.getID()+"|File:"+p);
-		p.displayPicture(50,50);
+		PictureRemote p0 = new PictureRemote(1);
+		PictureRemote p1 = new PictureRemote(p0.getID());
+		System.out.println(p0+"\n"+p1);
+		p0.displayPicture(100, 100);
+		p1.displayPicture(100, 100);
 	}
-
 }

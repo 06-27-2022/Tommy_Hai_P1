@@ -5,12 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.account.Picture;
-import com.account.PictureRemote;
 import com.account.Profile;
 import com.account.ProfileRemote;
-import com.account.Ticket;
-import com.account.TicketRemote;
 
 public class ProfileList implements List<Profile>{
 
@@ -27,6 +23,7 @@ public class ProfileList implements List<Profile>{
 		final String SQL = "insert into profile (account,name,address,picture)values(?,?,?,?)";
 		Object[]obj= {p.getAccountID(),p.getName(),p.getAddress(),picID};
 		return ConnectionUtil.stmtExecute(SQL, obj);
+		
 	}
 	@Override
 	public Profile get(int index) {
@@ -50,12 +47,12 @@ public class ProfileList implements List<Profile>{
 	}
 	public static void main(String[]args) {
 		List<Profile>plist = new ProfileList();
-		String filepath ="C:\\Users\\tomh0\\Documents\\Revature\\Project 1\\Tommy_Hai_P1\\ExpenseReimbursementSystem\\Images\\1.png";
-		Picture pic = new PictureRemote("testfile", filepath);
-		Profile profile = new ProfileRemote(1, "nametest", "addresstest", pic);
+		//String filepath ="C:\\Users\\tomh0\\Documents\\Revature\\Project 1\\Tommy_Hai_P1\\ExpenseReimbursementSystem\\Images\\1.png";
+		//Picture pic = new PictureRemote("testfile", filepath);
+		//Profile profile = new ProfileRemote(1, "nametest", "addresstest", pic);
 		//plist.add(profile);
 		
-		System.out.println("Printing Tickets");
+		System.out.println("Printing profiles");
 		for(int i=0;i<plist.size();i++){
 			Profile p =plist.get(i);
 			System.out.println(p.toString());

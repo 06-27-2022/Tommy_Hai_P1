@@ -10,6 +10,5 @@ public interface Ticket {
 	public String getStatus();
 	public boolean setStatus(boolean approve);
 	public String getType();
-	public int getImage();
 	public Picture getPicture();
 }

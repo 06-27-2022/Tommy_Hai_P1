@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jdbc.AccountList;
 import com.jdbc.ConnectionUtil;
+import com.jdbc.ProfileList;
 import com.jdbc.TicketList;
 
 public class AccountRemote implements Account{
@@ -141,9 +142,14 @@ public class AccountRemote implements Account{
 	public boolean setProfile(Profile p) {
 		if(local()) {return false;}
 		//update profile set name='qwer',address='qewr',picture=1 where id=1;
-		final String SQL="update profile set name=?,address=?,picture=? where id="+getID();
-		Object[]args= {p.getName(),p.getAddress(),p.getImage()};
-		return ConnectionUtil.stmtExecute(SQL, args);
+//		final String SQL="update profile set name=?,address=?,picture=? where account="+getID();	
+//		Object[]args= {p.getName(),p.getAddress(),p.getPicture().getID()};
+//		return ConnectionUtil.stmtExecute(SQL, args);
+		Profile profile=getProfile();
+		profile.setName(p.getName());
+		profile.setAddress(p.getAddress());
+		profile.setPicture(p.getPicture());
+		return true;
 	}	
 	/**
 	 * unimplemented
@@ -152,8 +158,19 @@ public class AccountRemote implements Account{
 	public Profile getProfile() {
 		//select amount from ticket where id=1;
 		final String SQL="select \"id\" from profile where account="+getID();
-		return new ProfileRemote((int) ConnectionUtil.stmtExecuteQuery(SQL));
+		try{
+			return new ProfileRemote((int) ConnectionUtil.stmtExecuteQuery(SQL));
+		}catch(ArrayIndexOutOfBoundsException e) {//no profile
+			createProfile();
+			return getProfile();
+		}
 	}	
+	private boolean createProfile() {
+		List<Profile>plist = new ProfileList();
+		Profile p=new ProfileRemote(getID(), getName(), "No Address", null);
+		plist.add(p);
+		return true;
+	}
 	
 	/**
 	 * All tickets submitted by this account
@@ -199,15 +216,10 @@ public class AccountRemote implements Account{
 	}
 	
 	public static void main(String[]args) {
-		//Account a1=new Account("test1","test1","whuh");
-		//System.out.println(a1.getID());
 		AccountList alist = new AccountList();
-		Account a = alist.get(1);
+		Account a = alist.get(4);
 		System.out.println(a);		
-		a.setName("a2");
-		a.setPassword("a2");
-		a.setRole("employee");
-		System.out.println(a);		
+		a.getProfile().print();
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.account;
 
-import java.io.IOException;
-
 import com.jdbc.ConnectionUtil;
 
 /**
@@ -16,7 +14,7 @@ public class ProfileRemote implements Profile {
 	private int AccountID;
 	private String Name;
 	private String Address;
-	private Picture Image;	
+	private Picture ProfilePicture;	
 	
 	public ProfileRemote(int profileID) {
 		PROFILE_ID=profileID;
@@ -34,7 +32,7 @@ public class ProfileRemote implements Profile {
 		AccountID=accountID;
 		Name=name;
 		Address=address;
-		Image = picture;//new PictureRemote(pictureFilePath, pictureFilePath);
+		ProfilePicture = picture;
 	}
 	private boolean local() {
 		if(PROFILE_ID==-1) {
@@ -87,28 +85,25 @@ public class ProfileRemote implements Profile {
 	
 	@Override
 	public String toString() {
-		return "ID:"+getID()+"|Name:"+getName()+"|Address:"+getAddress()+"|Image:"+getImage();
+		return "ProfileID:"+getID()+"|Name:"+getName()+"|Address:"+getAddress()+"|PictureID:"+getPictureID();
 	}
 	/**
-	 * prints name, address, and picture filepath into the console
+	 * prints name, address, and picture file path into the console
 	 * will also display the picture in a new window.
 	 */
 	@Override
 	public void print() {
 		System.out.println(toString());
-		Picture p = new PictureRemote(getID());
-		p.displayPicture(100, 100);
+		//Picture p = new PictureRemote(getID());
+		getPicture().displayPicture(200, 200);
 	}
 
 	/**
 	 * used for the profile picture
 	 * @return The File object containing the saved profile picture
 	 */
-	@Override
-	public int getImage() {
-		if(local()) {
-			return -1;//Image.getID();
-		}
+	private int getPictureID() {
+		if(local()) {return -1;}
 		//select amount from ticket where id=1;
 		final String SQL="select picture from profile where id="+PROFILE_ID;
 		try{
@@ -123,9 +118,28 @@ public class ProfileRemote implements Profile {
 	 * @param filePath The file path of the profile picture
 	 */
 	@Override
-	public boolean setImage(String filePath) {
+	public boolean setPicture(Picture picture) {
 		if(local())return false;
-		return Image.setPictureFile(filePath);
+		return getPicture().setPictureFile(picture.getPictureFile().getAbsolutePath());
+	}
+	
+	@Override
+	public Picture getPicture() {
+		if(local()) {
+			if(ProfilePicture==null)
+					return createPicture();
+			return ProfilePicture;
+		}
+		return new PictureRemote(getPictureID());
+	}
+	
+	/**
+	 * for use when there is no picture
+	 * @return local PictureRemote
+	 */
+	private Picture createPicture() {
+		Picture p=new PictureRemote(getName(),null);
+		return p;
 	}
 	
 	/**
@@ -135,19 +149,13 @@ public class ProfileRemote implements Profile {
 //		profilePic.displayPicture();
 //	}
 	
-	public static void main(String[]args) throws IOException {
-		Profile p = new ProfileRemote(1);
+	public static void main(String[]args){
+		Profile p = new ProfileRemote(2);
 		System.out.println(p.getAccountID());
 		System.out.println(p.getName());
 		System.out.println(p.getAddress());
-		System.out.println(p.getImage());
+		System.out.println(p.getPicture().getID());
 		p.print();
-	}
-
-	@Override
-	public Picture getPicture() {
-		if(local()) {return Image;}
-		return new PictureRemote(getImage());
 	}
 	
 }

@@ -55,15 +55,14 @@ public class TicketRemote implements Ticket{
 //	}
 	@Override
 	public String toString() {
-		return "Amount:"+getAmount()+"|Desc:"+getDescription()+"|Status:"+getStatus()+"|Type:"+getType()+"|Picture:"+getImage();
+		return "Amount:"+getAmount()+"|Desc:"+getDescription()+"|Status:"+getStatus()+"|Type:"+getType()+"|Picture:"+getPictureID();
 	}
 	/**
 	 * prints in console
 	 */
 	public void print() {
 		System.out.println(toString());
-		Picture p = new PictureRemote(getID());
-		p.displayPicture(100,100);
+		getPicture().displayPicture(200,200);
 	}
 	private boolean local() {
 		if(TICKET_ID==-1)
@@ -134,14 +133,6 @@ public class TicketRemote implements Ticket{
 			args[0]='d';
 		return ConnectionUtil.stmtExecute(SQL, args);
 	}
-	private boolean setType(String t) {
-		if(local())
-			return false;		
-		final String SQL="update ticket set type=? where id="+TICKET_ID;
-		String[]args= {t};
-		return ConnectionUtil.stmtExecute(SQL, args);
-	}
-	
 	/**
 	 *Travel, Lodging, Food, Other 
 	 */
@@ -169,13 +160,28 @@ public class TicketRemote implements Ticket{
 			return "Other";			
 		}
 	}
+	private boolean setType(String t) {
+		if(local())
+			return false;		
+		final String SQL="update ticket set type=? where id="+TICKET_ID;
+		String[]args= {t};
+		return ConnectionUtil.stmtExecute(SQL, args);
+	}
 	
+	public Picture getPicture() {
+		if(local()) {			
+			if(Image==null)
+				return createPicture();
+			return Image;
+		}
+		return new PictureRemote(getPictureID());
+	}
 	/**
 	 * Receipts
 	 * upload and store images in 
 	 * SQL or cloud storage
 	 */
-	public int getImage() {
+	private int getPictureID() {
 		if(local()) {
 			return Image.getID();
 		}
@@ -187,25 +193,31 @@ public class TicketRemote implements Ticket{
 			return -1;//image id is null
 		}		
 	}
-	public Picture getPicture() {
-		if(local()) {return Image;}
-		return new PictureRemote(getImage());
+	/**
+	 * for use when there is no picture
+	 * @return local PictureRemote
+	 */
+	private Picture createPicture() {
+		Picture p=new PictureRemote("AccountID"+getAccountID(),null);
+		return p;
 	}
-	
+
 	
 	public static void main(String[]args) {
-		TicketRemote t = new TicketRemote(1);
-		System.out.println("Account:"+t.getAccountID());
-		System.out.println("Amount:	"+t.getAmount());
-		System.out.println("Desc:	"+t.getDescription());
-		System.out.println("Status:	"+t.getStatus());
-		t.setStatus(true);
-		System.out.println("Status:	"+t.getStatus());
-		System.out.println("Type:	"+t.getType());
-		System.out.println("Image:	"+t.getImage());	
-		Picture p = new PictureRemote(t.getID());
-		p.displayPicture(200,200);
+		TicketRemote t = new TicketRemote(2);
+//		System.out.println("Account:"+t.getAccountID());
+//		System.out.println("Amount:	"+t.getAmount());
+//		System.out.println("Desc:	"+t.getDescription());
+//		System.out.println("Status:	"+t.getStatus());
+//		t.setStatus(true);
+//		System.out.println("Status:	"+t.getStatus());
+//		System.out.println("Type:	"+t.getType());
+//		System.out.println("Image:	"+t.getImage());	
+//		t.getPicture().displayPicture(100, 100);
+//		//Picture p = new PictureRemote(t.getID());
+		t.getPicture().displayPicture(200,200);
 		System.out.println(t);
+		
 		//Ticket t1= new Ticket(2,123.34,"jdsdadsfa");
 		//System.out.println("t1:"+t1.getID());
 	}
