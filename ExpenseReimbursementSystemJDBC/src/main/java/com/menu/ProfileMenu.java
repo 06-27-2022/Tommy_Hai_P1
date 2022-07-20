@@ -9,6 +9,7 @@ import com.account.Profile;
 import com.account.ProfileRemote;
 import com.jdbc.AccountList;
 import com.jdbc.ConnectionUtil;
+import com.util.OutputUtil;
 
 public class ProfileMenu extends Menu {
 
@@ -36,9 +37,8 @@ public class ProfileMenu extends Menu {
 	}
 
 	public void searchUser() {
-
 		//search name
-		System.out.println("Enter Name");
+		OutputUtil.println("Enter Name");
 		String name = input();
 		
 		//select id from profile where "name"='qwer';
@@ -47,40 +47,45 @@ public class ProfileMenu extends Menu {
 
 		//no users
 		if(o.length==0) {
-			System.out.println("No profiles found using the name "+name);
+			OutputUtil.println("No profiles found using the name "+name);
 			return;
 		}
 
 		//select user
-		System.out.print(o.length+" users have the name "+name+"\n/");
+		OutputUtil.print(o.length+" users have the name "+name+"\n/");
 		Account[]accounts=new AccountRemote[o.length];
 		for(int i=0;i<o.length;i++) {
 			accounts[i]=new AccountRemote((int)o[i][0]);
-			System.out.print(""+accounts[i].getName()+"/");
+			OutputUtil.print(""+accounts[i].getName()+"/");
 		}		
 		String user = input();
 		
 		//display profile of selected account
 		for(Account a:accounts) {
 			if(user.equalsIgnoreCase(a.getName())) {
-				System.out.println("Name:"+a.getProfile().getName());
-				System.out.println("Address:"+a.getProfile().getAddress());
+				OutputUtil.println("Name:"+a.getProfile().getName());
+				OutputUtil.println("Address:"+a.getProfile().getAddress());
 				a.getProfile().getPicture().displayPicture(200, 200);
 				return;
 			}
 		}
-		System.out.println("No selection made");
+		OutputUtil.println("No selection made");
 	}
 	public void viewProfile() {
-		Account.getProfile().print();
+		Profile p = Account.getProfile();
+		OutputUtil.println("Name:"+p.getName());
+		OutputUtil.println("Address:"+p.getAddress());
+		OutputUtil.println("PictureID:"+p.getPicture().getID());
+		if(OutputUtil.display)
+			p.getPicture().displayPicture(100, 100);
 	}
 	
 	public void editProfile() {
-		System.out.println("Enter Name");
+		OutputUtil.println("Enter Name");
 		String name = input();
-		System.out.println("Enter Address");
+		OutputUtil.println("Enter Address");
 		String address = input();
-		System.out.println("Enter Picture");
+		OutputUtil.println("Enter Picture");
 		String pic= input();
 		Picture picture = new PictureRemote(Account.getName(), pic);
 		Profile p = new ProfileRemote(Account.getID(),name,address,picture);
@@ -104,7 +109,7 @@ public class ProfileMenu extends Menu {
 					editProfile();
 					break;
 				default:
-					System.out.println("Error");
+					OutputUtil.println("Error");
 			}
 		}		
 	}

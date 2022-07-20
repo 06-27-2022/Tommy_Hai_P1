@@ -11,24 +11,7 @@ import com.account.AccountRemote;
 public class AccountList implements List<Account> {
 
 
-	public AccountList(){
-//		Connection conn=ConnectionUtil.getConnection();
-//		PreparedStatement stmt = null;
-//		ResultSet set = null;
-//		//Account acc=null;
-//		final String SQL = "SELECT * FROM account order by id asc";
-//		try{
-//			stmt=conn.prepareStatement(SQL);
-//			set=stmt.executeQuery();
-//			while(set.next()){
-//				Account acc = new Account(set.getString(2), set.getString(3), set.getString(4));
-//			}
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//		}finally {
-//			ConnectionUtil.closeConnection(conn,stmt,set);
-//		}
-	}
+	public AccountList(){}
 	
 	@Override
 	public int size() {
@@ -57,25 +40,6 @@ public class AccountList implements List<Account> {
 		int id=(int)a[0][0];
 		return new AccountRemote(id);		
 	}
-//		Connection conn=ConnectionUtil.getConnection();
-//		PreparedStatement stmt = null;
-//		ResultSet set = null;
-//		Account acc=null;
-//		final String SQL = "SELECT * FROM account order by id asc limit 1 offset ?";
-//		try{
-//			stmt=conn.prepareStatement(SQL);
-//			stmt.setInt(1, index);
-//			set=stmt.executeQuery();
-//			if(set.next()){
-//			acc = new Account(set.getString(2), set.getString(3), set.getString(4));
-//			}
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//		}finally {
-//			ConnectionUtil.closeConnection(conn,stmt,set);
-//		}
-//		return acc;
-//	}
 
 	@Override
 	public boolean isEmpty() {

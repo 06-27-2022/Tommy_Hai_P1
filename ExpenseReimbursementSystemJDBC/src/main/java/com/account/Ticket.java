@@ -1,8 +1,6 @@
 package com.account;
 
 public interface Ticket {
-	public String toString();
-	public void print();
 	public int getID();
 	public int getAccountID();
 	public double getAmount();
@@ -11,4 +9,5 @@ public interface Ticket {
 	public boolean setStatus(boolean approve);
 	public String getType();
 	public Picture getPicture();
+	public String toString();
 }

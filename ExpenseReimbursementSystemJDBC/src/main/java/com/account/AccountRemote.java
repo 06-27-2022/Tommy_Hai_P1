@@ -219,7 +219,8 @@ public class AccountRemote implements Account{
 		AccountList alist = new AccountList();
 		Account a = alist.get(4);
 		System.out.println(a);		
-		a.getProfile().print();
+		String str = a.getProfile().toString();
+		System.out.println(str);
 	}
 
 }

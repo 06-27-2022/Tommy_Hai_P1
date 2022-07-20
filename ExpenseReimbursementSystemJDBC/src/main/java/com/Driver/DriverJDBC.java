@@ -5,17 +5,24 @@ import com.account.Account;
 import com.jdbc.AccountList;
 import com.menu.Login;
 import com.menu.Menu;
+import com.util.OutputUtil;
 
 public class DriverJDBC {
 		
-	public static void main(String[] args) {		
-		List<Account>alist= new AccountList();		
-					
+//	private static final Logger logger = LoggerFactory.getLogger(DriverJDBC.class);
+	
+	public static void main(String[] args) {	
+		
+		OutputUtil.logger.trace("Start Program");
+		
+		List<Account>alist= new AccountList();							
 		Menu login = new Login(alist);
+		
+		OutputUtil.logger.trace("Entering Login Menu");
 		login.traverse();
 
-		System.out.println("Close");
-		System.exit(0);
+		OutputUtil.logger.trace("End Program");
+		return;
 	}
 
 }

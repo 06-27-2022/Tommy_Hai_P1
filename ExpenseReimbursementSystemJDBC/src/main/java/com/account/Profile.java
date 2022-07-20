@@ -11,6 +11,4 @@ public interface Profile {
 	Picture getPicture();
 	boolean setPicture(Picture picture);
 	String toString();
-	void print();
-
 }

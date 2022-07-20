@@ -87,16 +87,6 @@ public class ProfileRemote implements Profile {
 	public String toString() {
 		return "ProfileID:"+getID()+"|Name:"+getName()+"|Address:"+getAddress()+"|PictureID:"+getPictureID();
 	}
-	/**
-	 * prints name, address, and picture file path into the console
-	 * will also display the picture in a new window.
-	 */
-	@Override
-	public void print() {
-		System.out.println(toString());
-		//Picture p = new PictureRemote(getID());
-		getPicture().displayPicture(200, 200);
-	}
 
 	/**
 	 * used for the profile picture
@@ -155,7 +145,8 @@ public class ProfileRemote implements Profile {
 		System.out.println(p.getName());
 		System.out.println(p.getAddress());
 		System.out.println(p.getPicture().getID());
-		p.print();
+		System.out.println(p.toString());
+		p.getPicture().displayPicture(100, 100);
 	}
 	
 }

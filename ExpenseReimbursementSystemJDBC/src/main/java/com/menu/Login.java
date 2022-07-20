@@ -2,11 +2,12 @@ package com.menu;
 import java.util.List;
 
 import com.account.*;
+import com.util.OutputUtil;
 
 public class Login extends Menu{
 	
-	protected List<Account>Accounts;
-	
+	private List<Account>Accounts;
+
 	/*
 	 * will use the provided arraylist as the acc
 	 * arraylist
@@ -17,9 +18,11 @@ public class Login extends Menu{
 		menuOptions[0]="Exit";
 		menuOptions[1]="Login";
 		menuOptions[2]="Create Account";
+		OutputUtil.logger.trace("Created Instance of Login class");
 	}
 	
 	public void traverse() {
+		OutputUtil.logger.trace("Traversing the Login menu");
 		consoleTraverse();
 	}
 	
@@ -35,15 +38,15 @@ public class Login extends Menu{
 	 */
 	public void login() {
 		//get credentials
-		System.out.println("Username:");
+		OutputUtil.println("Username:");
 		String user = input();
-		System.out.println("Password:");
+		OutputUtil.println("Password:");
 		String pass = input();
 
 		//get account
 		Account acc = getAccount(user,pass);
 		if(acc!=null ) {
-			System.out.println("Welcome "+acc.getName()+"\nRole:"+acc.getRole());
+			OutputUtil.println("Welcome "+acc.getName()+"\nRole:"+acc.getRole());
 			Menu menu;
 			if(acc.getRole().equals("Manager"))
 				menu=new ManagerMenu(acc,Accounts);
@@ -52,7 +55,7 @@ public class Login extends Menu{
 			menu.traverse();
 		}
 		else
-			System.out.println("User and Password combination do not exist");
+			OutputUtil.println("User and Password combination do not exist");
 	}
 
 	/*
@@ -60,19 +63,19 @@ public class Login extends Menu{
 	 */
 	public void createAccount() {
 		//get credentials
-		System.out.println("Username:");
+		OutputUtil.println("Username:");
 		String user = input();
-		System.out.println("Password:");
+		OutputUtil.println("Password:");
 		String pass = input();
-		System.out.println("Role:");
+		OutputUtil.println("Role:");
 		String role= input();
 		
 		//create account
 		boolean success = createAccount(user,pass,role);
 		if(success)
-			System.out.println("Account creation successful");
+			OutputUtil.println("Account creation successful");
 		else
-			System.out.println("Account name unavailable");	
+			OutputUtil.println("Account name unavailable");	
 	}
 
 	protected void consoleTraverse() {

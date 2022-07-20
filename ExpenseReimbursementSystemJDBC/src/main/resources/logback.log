@@ -1,0 +1,10 @@
+21:55:12.403 [main] TRACE com.logERS.LogERS - Test
+21:55:46.726 [main] TRACE com.logERS.LogERS - Start Program
+21:56:03.581 [main] TRACE com.logERS.LogERS - End Program
+22:00:20.287 [main] TRACE com.logERS.LogERS - test
+22:06:59.362 [main] TRACE com.logERS.Logback - test
+22:12:48.284 [main] TRACE com.logERS.Logback - Start Program
+22:12:48.289 [main] TRACE com.logERS.Logback - Created Instance of Login class
+22:12:48.289 [main] TRACE com.logERS.Logback - Entering Login Menu
+22:12:48.289 [main] TRACE com.logERS.Logback - Traversing the Login menu
+22:13:01.304 [main] TRACE com.logERS.Logback - End Program

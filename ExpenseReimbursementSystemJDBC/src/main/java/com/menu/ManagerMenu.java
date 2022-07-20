@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.account.Account;
 import com.account.Ticket;
-import com.account.TicketRemote;
+import com.util.OutputUtil;
 
 public class ManagerMenu extends EmployeeMenu{
 	
@@ -57,9 +57,9 @@ public class ManagerMenu extends EmployeeMenu{
 				boolean wait=true;	
 				while(wait) {
 					//prompt
-					System.out.println("----------------------------------------");
-					t.print();
-					System.out.println("Approved/Denied/Exit");
+					OutputUtil.println("----------------------------------------");
+					OutputUtil.println(t.toString());
+					OutputUtil.println("Approved/Denied/Exit");
 					//input
 					String str = input();
 					
@@ -90,7 +90,7 @@ public class ManagerMenu extends EmployeeMenu{
 						return;
 					//invalid input
 					else 
-						System.out.println("Invalid Input");
+						OutputUtil.println("Invalid Input");
 				}//finished reading inputs
 			}//finished iterating through tickets from account
 		}//finished iterating through all accounts
@@ -105,18 +105,18 @@ public class ManagerMenu extends EmployeeMenu{
 		
 		//get user
 		while(true){
-			System.out.println("User: ");
+			OutputUtil.println("User: ");
 			String str = input();
 			a=searchUser(str);
 			if(a==null)
-				System.out.println("User does not exist");
+				OutputUtil.println("User does not exist");
 			else
 				break;
 		}
 		
 		//change role
 		while(true) {
-			System.out.println("Role: "+a.getRole()+"\nEmployee/Manager");
+			OutputUtil.println("Role: "+a.getRole()+"\nEmployee/Manager");
 			String str = input();
 			if(str.equalsIgnoreCase("Employee")) {
 				a.setRole("Employee");
@@ -127,7 +127,7 @@ public class ManagerMenu extends EmployeeMenu{
 				return;
 			}
 			else
-				System.out.println("Invalid input");
+				OutputUtil.println("Invalid input");
 		}
 	}
 	

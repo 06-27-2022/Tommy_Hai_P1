@@ -18,6 +18,15 @@
 	    	<artifactId>postgresql</artifactId>
 	    	<version>42.4.0</version>
 		</dependency>
+		
+		<!-- logback dependency copied from
+		https://github.com/06-27-2022/Content-Repository/blob/main/Logback/LogbackExample/pom.xml
+		 -->
+	   	<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		<version>1.2.11</version>
+	</dependency>
 	</dependencies>
 	
 </project>

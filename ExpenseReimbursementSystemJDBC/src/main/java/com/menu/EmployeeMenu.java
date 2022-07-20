@@ -9,6 +9,7 @@ import com.account.Ticket;
 import com.account.TicketRemote;
 import com.jdbc.AccountList;
 import com.jdbc.TicketList;
+import com.util.OutputUtil;
 
 public class EmployeeMenu extends Menu{
 	
@@ -52,17 +53,17 @@ public class EmployeeMenu extends Menu{
 		
 		//get amount
 		while(amount<0) {
-			System.out.println("Amount:");
+			OutputUtil.println("Amount:");
 			String str = input();
 			try{
 				amount=(double)((int)(Double.parseDouble(str)*100))/100;
 			}
 			catch(Exception e){
-				System.out.println("Error: "+e);
+				OutputUtil.println("Error: "+e);
 			}
 		}
 		//get description
-		System.out.println("Description:");
+		OutputUtil.println("Description:");
 		desc = input();
 		
 		//get type Travel, Lodging, Food, Other 
@@ -70,10 +71,10 @@ public class EmployeeMenu extends Menu{
 		boolean repeat=true;
 		while(repeat) {
 			//prompt
-			System.out.print("Type:\n/");
+			OutputUtil.print("Type:\n/");
 			for(String t:types)
-				System.out.print(t+"/");
-			System.out.println();
+				OutputUtil.print(t+"/");
+			OutputUtil.println("");
 			
 			//input
 			type=input();
@@ -86,7 +87,7 @@ public class EmployeeMenu extends Menu{
 		}
 		
 		//get image
-		System.out.println("Image:");
+		OutputUtil.println("Image:");
 		String image=input();
 		Picture p = new PictureRemote("Ticket"+Account.getID(),image);
 		
@@ -97,34 +98,29 @@ public class EmployeeMenu extends Menu{
 	}
 
 	public void viewTickets() {
-		System.out.println("---Tickets---");
-		System.out.println("/all/pending/approved/denied/");
+		OutputUtil.println("---Tickets---");
+		OutputUtil.println("/all/pending/approved/denied/");
 		String order=input();
-		List<Ticket>t;
-		if(order.equalsIgnoreCase("all")) {
-			for(int i=0;i<Tickets.size();i++) {
-				Tickets.get(i).print();
-				System.out.println("=======");
-			}
-		}else if(order.equalsIgnoreCase("pending")) {
-			t=new TicketList(Account.getID(),"p");
-			for(int i=0;i<t.size();i++) {
-				t.get(i).print();
-				System.out.println("=======");
-			}			
-		}else if(order.equalsIgnoreCase("approved")) {
-			t=new TicketList(Account.getID(),"a");
-			for(int i=0;i<t.size();i++) {
-				t.get(i).print();
-				System.out.println("=======");
-			}			
-		}else if(order.equalsIgnoreCase("denied")) {
-			t=new TicketList(Account.getID(),"d");
-			for(int i=0;i<t.size();i++) {
-				t.get(i).print();
-				System.out.println("=======");
-			}			
-		}
+		List<Ticket>tlist=null;
+		if(order.equalsIgnoreCase("all"))
+			tlist=new TicketList();
+		else if(order.equalsIgnoreCase("pending"))
+			tlist=new TicketList(Account.getID(),"p");
+		else if(order.equalsIgnoreCase("approved")) 
+			tlist=new TicketList(Account.getID(),"a");
+		else if(order.equalsIgnoreCase("denied")) 
+			tlist=new TicketList(Account.getID(),"d");
+
+		//print tickets
+		for(int i=0;i<tlist.size();i++) {
+			Ticket t = tlist.get(0);
+			t.getPicture().displayPicture(200, 200);
+			OutputUtil.println(t.toString());
+			for(int j=0;j<20;j++)
+				OutputUtil.print("=");
+			OutputUtil.println();
+		}			
+
 	}
 	public void viewProfile() {
 		Menu profile = new ProfileMenu(Account,Accounts);
@@ -137,21 +133,6 @@ public class EmployeeMenu extends Menu{
 		while(!exit) {
 			int option = consoleSelect();
 			exit = optionSelect(option);
-//			switch(option) {
-//				case 0:
-//					exit=true;
-//				break;
-//				case 1:
-//					submitTicket();
-//				break;
-//				case 2:
-//					viewTickets();
-//				break;
-//				case 3:
-//					viewProfile();
-//				default:
-//					System.out.println("Error");
-//			}
 		}
 	}
 	protected boolean optionSelect(int option) {
@@ -169,6 +150,7 @@ public class EmployeeMenu extends Menu{
 		}
 		return false;
 	}
+	
 	public static void main(String[]args) {
 		EmployeeMenu m = new EmployeeMenu(new AccountRemote(1),new AccountList());
 		m.traverse();
