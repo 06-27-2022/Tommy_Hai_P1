@@ -7,8 +7,8 @@ public class AccountLocal implements Account {
 	private String accountName;
 	private String accountPassword;
 	private String accountRole;
-//	private Profile Profile;
-//	private List<Ticket>Tickets;
+	private Profile profile;
+//	private List<Ticket>tickets; local account can't submit tickets
 	
 	public AccountLocal() {}
 	
@@ -69,36 +69,31 @@ public class AccountLocal implements Account {
 
 	@Override
 	public Profile getProfile() {
-		// TODO Auto-generated method stub
-//		return Profile;
-		return null;
+		return profile;
 	}
 
 	@Override
 	public boolean setProfile(Profile p) {
-//		Profile.setName(p.getName());
-//		Profile.setAddress(p.getAddress());
-//		Profile.setPicture(p.getPicture());
+		profile=p;
 		return true;
 	}
 
 	@Override
 	public List<Ticket> getTickets() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	@Override
 	public List<Ticket> getTickets(String string) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean approveTicket(Ticket t, boolean approve) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public String toString() {
+		return getName()+"|"+getPassword()+"|"+getRole()+"|"+getProfile();
 	}
 
 }

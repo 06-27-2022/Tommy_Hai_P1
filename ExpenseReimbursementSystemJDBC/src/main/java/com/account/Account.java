@@ -13,7 +13,6 @@ public interface Account{
 	public abstract Profile getProfile();
 	public abstract boolean setProfile(Profile p);
 	public abstract List<Ticket>getTickets();
-	public abstract List<Ticket> getTickets(String string);
+	public abstract List<Ticket> getTickets(String status);
 	public abstract boolean approveTicket(Ticket t,boolean approve);
-	public abstract String toString();
 }

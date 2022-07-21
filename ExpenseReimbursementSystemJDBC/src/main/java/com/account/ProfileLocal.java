@@ -2,6 +2,7 @@ package com.account;
 
 public class ProfileLocal implements Profile{
 
+	private int accountID;
 	private String name;
 	private String address;
 	private Picture picture;
@@ -11,49 +12,38 @@ public class ProfileLocal implements Profile{
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
-
 	@Override
 	public int getAccountID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return accountID;
 	}
-
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
-
 	@Override
 	public boolean setName(String name) {
-		// TODO Auto-generated method stub
-		return false;
+		this.name=name;
+		return true;
 	}
-
 	@Override
 	public String getAddress() {
-		// TODO Auto-generated method stub
-		return null;
+		return address;
 	}
-
 	@Override
 	public boolean setAddress(String address) {
-		// TODO Auto-generated method stub
-		return false;
+		this.address=address;
+		return true;
 	}
-
 	@Override
 	public Picture getPicture() {
-		// TODO Auto-generated method stub
-		return null;
+		return picture;
 	}
-
 	@Override
 	public boolean setPicture(Picture picture) {
-		// TODO Auto-generated method stub
-		return false;
+		this.picture=picture;
+		return true;
 	}
-
 }
