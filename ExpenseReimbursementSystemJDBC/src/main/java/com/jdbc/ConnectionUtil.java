@@ -20,7 +20,7 @@ public class ConnectionUtil {
 	
 	public static Connection getConnection() {
 		String url=System.getenv("db_url");
-		String user=System.getenv("db_user");//she named hers db_username
+		String user=System.getenv("db_username");//she named hers db_username
 		String password=System.getenv("db_password");		
 		try {
 			return DriverManager.getConnection(url,user,password);

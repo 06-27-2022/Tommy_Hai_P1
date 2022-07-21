@@ -4,6 +4,9 @@
   <artifactId>ExpenseReimbursementSystemJDBC</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
+	<packaging>war</packaging>
+
+
   	<!-- Maven is currently assuming that we're working in Java 5. We can change this with
   	a properties tag. -->
   	<properties>
@@ -19,14 +22,39 @@
 	    	<version>42.4.0</version>
 		</dependency>
 		
-		<!-- logback dependency copied from
-		https://github.com/06-27-2022/Content-Repository/blob/main/Logback/LogbackExample/pom.xml
-		 -->
+		<!--https://github.com/06-27-2022/Content-Repository/blob/main/Logback/LogbackExample/pom.xml-->
 	   	<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-		<version>1.2.11</version>
-	</dependency>
+			<version>1.2.11</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.3</version>
+		</dependency>
 	</dependencies>
+	
+	<build>
+      <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+        </plugin>
+    </plugins>
+    <finalName>check</finalName>
+  </build>
+	
 	
 </project>

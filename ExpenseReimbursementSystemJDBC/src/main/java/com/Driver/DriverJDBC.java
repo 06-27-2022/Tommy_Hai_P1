@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.account.Account;
 import com.jdbc.AccountList;
-import com.menu.Login;
+import com.menu.LoginMenu;
 import com.menu.Menu;
 import com.util.OutputUtil;
 
@@ -16,7 +16,7 @@ public class DriverJDBC {
 		OutputUtil.logger.trace("Start Program");
 		
 		List<Account>alist= new AccountList();							
-		Menu login = new Login(alist);
+		Menu login = new LoginMenu(alist);
 		
 		OutputUtil.logger.trace("Entering Login Menu");
 		login.traverse();

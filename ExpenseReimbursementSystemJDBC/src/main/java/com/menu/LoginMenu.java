@@ -4,7 +4,7 @@ import java.util.List;
 import com.account.*;
 import com.util.OutputUtil;
 
-public class Login extends Menu{
+public class LoginMenu extends Menu{
 	
 	private List<Account>Accounts;
 
@@ -12,7 +12,7 @@ public class Login extends Menu{
 	 * will use the provided arraylist as the acc
 	 * arraylist
 	 */
-	public Login(List<Account>accounts) {	
+	public LoginMenu(List<Account>accounts) {	
 		Accounts = accounts;
 		menuOptions=new String[3];
 		menuOptions[0]="Exit";
