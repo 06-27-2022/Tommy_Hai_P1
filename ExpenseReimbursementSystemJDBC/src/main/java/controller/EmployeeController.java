@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,61 +18,53 @@ import com.account.TicketRemote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jdbc.AccountList;
 import com.jdbc.TicketList;
-import com.menu.Menu;
-import com.menu.ProfileMenu;
-import com.util.OutputUtil;
 
-public class EmployeeController {
+public class EmployeeController extends Controller {
 
 	protected Account account;
 	protected List<Account>accounts;
-	protected HttpServletRequest request;
-	protected HttpServletResponse response;
-	protected PrintWriter writer;
+//	protected HttpServletRequest request;
+//	protected HttpServletResponse response;
+//	protected PrintWriter writer;
 	
 	public EmployeeController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		super(request,response);
 		//get account id from HttpSession
 		//code 500 if not account signed in
 		HttpSession session = request.getSession(false);
 		int accountID = (int) session.getAttribute("accountID");
-		account=new AccountRemote(accountID);
-		
+		account=new AccountRemote(accountID);		
 		accounts=new AccountList();
-		this.request=request;
-		this.response=response;
-		writer = response.getWriter();
+//		this.request=request;
+//		this.response=response;
+//		writer = response.getWriter();
 	}
-	public void write(String str) {
-		writer.write("<p>"+str+"</p>");
-	}
-	public void writeln(String str) {
-		writer.write("<p>"+str+"</p><br>");
-	}
-
 	/**
 	 * submits a new ticket to the ticket table
 	 * @throws ServletException
 	 * @throws IOException
 	 */
 	public void submitTicket() throws ServletException, IOException {
-		writeln("Submitting new Ticket");
+		writer.write("<p>Submitting new Ticket</p><br>");
 		String requestBodyText = new String(request.getInputStream().readAllBytes());
-		Ticket ticket = new ObjectMapper().readValue(requestBodyText,TicketLocal.class);
+		//Ticket ticket = new ObjectMapper().readValue(requestBodyText,TicketLocal.class);
 
 		//transfer the contents of the local ticket to a remote ticket
 		int accountID=account.getID();
 
 		//amount on ticket, only 2 decimal places should be allowed
-		double amount=(double)((int)(ticket.getAmount()*100))/100;
+		//double amount=(double)((int)(ticket.getAmount()*100))/100;
+		double amount=(double)((int)(Double.parseDouble(request.getParameter("amount"))*100))/100;
 		
 		//description of ticket
-		String desc=ticket.getDescription();
+		//String desc=ticket.getDescription();
+		String desc=request.getParameter("description");
 		if(desc==null)
 			desc="No Description";
 		
 		//get type Travel, Lodging, Food, Other 
-		String type=ticket.getType();
+		//String type=ticket.getType();
+		String type=request.getParameter("type");
 		if(type.equalsIgnoreCase("Travel"))
 			type="Travel";
 		else if(type.equalsIgnoreCase("Lodging"))
@@ -86,25 +77,25 @@ public class EmployeeController {
 		//picture
 //		Picture pic;
 //		try{
-//			System.out.println("filepath="+ticket.getPicture().getPictureFile().getAbsolutePath());
 //			pic = new PictureRemote("Ticket"+account.getID(),ticket.getPicture().getPictureFile().getAbsolutePath());
 //		}catch(NullPointerException e) {
 //			pic = new PictureRemote("Ticket"+account.getID(),"asdf");
 //		}
-//		Picture pic = new PictureRemote("Ticket"+account.getID(),"no");
+		
+		Picture pic = new PictureRemote("temp",request.getParameter("filepath"));
 
 		
 //		//add ticketR to database
-		Ticket ticketR = new TicketRemote(accountID,amount,desc,type,null); 
+		Ticket ticketR = new TicketRemote(accountID,amount,desc,type,pic); 
 		List<Ticket>tList = new TicketList();
 		tList.add(ticketR);
 	}
 
-	public void viewTickets() {
+	public void viewTickets() throws IOException {
 		writer.write("<h2>View Tickets</h2><br>");
 		//request parameters
 		String order=request.getParameter("order");
-		writeln(order);
+		writer.write("<h3>Order:"+order+"</h3><br>");
 		List<Ticket>tlist=null;
 		if(order.equalsIgnoreCase("all"))
 			tlist=new TicketList();
@@ -119,17 +110,23 @@ public class EmployeeController {
 		int size = tlist.size();
 		for(int i=0;i<size;i++) {
 			Ticket t = tlist.get(i);
+			
+//			System.out.println("Working Directory = " + System.getProperty("user.dir"));			
 			//t.getPicture().displayPicture(200, 200);
-			writeln(t.toString());
+//			String filepath=null;
+			//my current implementation of images is poorly done
+			//next time look into the aws stuff sent to you
+//			filepath ="http://localhost:8080/check/"+t.getPicture().getPictureFile().getPath();
+//			filepath="C:\\Users\\tomh0\\scoop\\apps\\sts\\current\\"+t.getPicture().getPictureFile().getName();
+//			writer.write("<img src=\""+filepath+"\" alt=\""+filepath+"\" width=\"50\" height=\"50\">");
+			
+			displayPicture(t.getPicture(),50,50);
+			writer.write(t.toString()+"<br>");
 			String border="";
-			for(int j=0;j<20;j++)
+			for(int j=0;j<50;j++)
 				border+="=";
-			writeln(border);
-		}			
+			writer.write(border+"<br>");
+		}		
 	}
-	public void viewProfile() {
-
-	}
-
 	
 }

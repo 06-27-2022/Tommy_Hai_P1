@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.EmployeeController;
 import controller.LoginController;
 import controller.ManagerController;
+import controller.ProfileController;
 
 public class RequestHelper {
 	
@@ -33,6 +34,15 @@ public class RequestHelper {
 			break;
 		case "/edit-accounts":
 			new ManagerController(request,response).viewAccounts();
+			break;
+		case "/search-profile":
+			new ProfileController(request,response).searchProfile();
+			break;
+		case "/select-profile":
+			new ProfileController(request,response).selectProfile();;
+			break;
+		case "/profile":
+			new ProfileController(request,response).viewProfile();;
 			break;
 		default:
 			//resource does not exist
@@ -68,6 +78,9 @@ public class RequestHelper {
 			break;
 		case "/edit-accounts":
 			new ManagerController(request,response).editAccounts();
+			break;
+		case "/profile":
+			new ProfileController(request,response).editProfile();;
 			break;
 		default:
 			//resource does not exist

@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,18 +15,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jdbc.AccountList;
 import com.jdbc.ConnectionUtil;
 
-public class LoginController {
+public class LoginController extends Controller{
 
 	private List<Account>accounts;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private PrintWriter writer;
+//	private HttpServletRequest request;
+//	private HttpServletResponse response;
+//	private PrintWriter writer;
 	
 	public LoginController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		super(request,response);
 		accounts=new AccountList();
-		this.request=request;
-		this.response=response;
-		writer = response.getWriter();
+//		this.request=request;
+//		this.response=response;
+//		writer = response.getWriter();
 	}
 	
 	public void signIn()throws ServletException, IOException {

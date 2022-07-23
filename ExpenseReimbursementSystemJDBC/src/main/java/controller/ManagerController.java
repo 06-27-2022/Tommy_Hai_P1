@@ -55,12 +55,11 @@ public class ManagerController extends EmployeeController {
 			List<Ticket>pending=acc.getTickets("p");
 			for(int j=0;j<pending.size();j++) {
 				Ticket t = pending.get(j);
+				displayPicture(t.getPicture(),50,50);
 				writer.write("TicketID:"+t.getID()
-							+"|Status:"+t.getStatus()
 							+"|Amount:"+t.getAmount()
 							+"|Description:"+t.getDescription()
 							+"|Type:"+t.getType()
-							+"|PictureID:"+t.getPicture().getID()
 							+"<br>");
 			}
 		}
