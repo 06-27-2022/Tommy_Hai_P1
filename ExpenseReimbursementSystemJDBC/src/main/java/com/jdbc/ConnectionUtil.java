@@ -178,8 +178,6 @@ public class ConnectionUtil {
 	 * Runs a resultSet.
 	 * @param SQL used for a preparedstatement
 	 * @param args	arguments for the preparedstatement
-	 * @params rows	the amount of rows returned
-	 * @param columns the amount of columns per row
 	 * @return returns a 2d object array obj[rows][columns]
 	 */
 	public static Object[][] stmtExecuteQuery2D(String SQL,Object[]args) {

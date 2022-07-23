@@ -43,7 +43,8 @@ public class PictureRemote implements Picture {
 	public PictureRemote(int pictureID) {
 		PICTURE_ID=pictureID;
 		EXTENSION="png";
-		FOLDER="Images//";
+		//FOLDER="Images//";
+		FOLDER="";
 	}	
 	/**
 	 * the character : seems to cause issues
@@ -53,7 +54,8 @@ public class PictureRemote implements Picture {
 		this.PICTURE_ID = -1;
 		FILENAME = nameOfCopy;
 		EXTENSION="png";
-		FOLDER="Images//";
+		//FOLDER="Images//";
+		FOLDER="";
 		setPictureFile(filePath);
 	}
 	private boolean local() {
@@ -183,7 +185,7 @@ public class PictureRemote implements Picture {
 		//http://www.java2s.com/Code/Java/2D-Graphics-GUI/DrawanImageandsavetopng.htm
 		Font font = new Font("TimesRoman", Font.BOLD, 20);
 		ig2.setFont(font);
-		String message = FILENAME;
+		String message = "<"+FILENAME+">";
 		FontMetrics fontMetrics = ig2.getFontMetrics();
 		int stringWidth = fontMetrics.stringWidth(message);
 		int stringHeight = fontMetrics.getAscent();

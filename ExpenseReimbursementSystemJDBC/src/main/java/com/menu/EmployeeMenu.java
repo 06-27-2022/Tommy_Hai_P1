@@ -113,7 +113,7 @@ public class EmployeeMenu extends Menu{
 
 		//print tickets
 		for(int i=0;i<tlist.size();i++) {
-			Ticket t = tlist.get(0);
+			Ticket t = tlist.get(i);
 			t.getPicture().displayPicture(200, 200);
 			OutputUtil.println(t.toString());
 			for(int j=0;j<20;j++)

@@ -45,7 +45,10 @@ public class TicketRemote implements Ticket{
 			Type="Food";
 		else 
 			Type="Other";
-		Image=new PictureRemote(image.getPictureFile().getName(),image.getPictureFile().getAbsolutePath());
+		if(image!=null)
+			Image=new PictureRemote(image.getPictureFile().getName(),image.getPictureFile().getAbsolutePath());
+		else
+			image=new PictureRemote("temp", "temp");
 	}
 	
 		//insert into ticket (account,amount,description,status)values(1,22.34,'asdfasdf','p')returning id;
@@ -122,7 +125,7 @@ public class TicketRemote implements Ticket{
 	 *@param approve true will approve the ticket, false will deny the ticket
 	 */
 	public boolean setStatus(boolean approve) {
-		if(local()||getStatus()!="p")
+		if(local()||!getStatus().equalsIgnoreCase("p"))
 			return false;
 		//update ticket set amount=2.25 where id=4;
 		final String SQL="update ticket set status=? where id="+TICKET_ID;
@@ -183,6 +186,8 @@ public class TicketRemote implements Ticket{
 	 */
 	private int getPictureID() {
 		if(local()) {
+			if(Image==null)
+				return -1;
 			return Image.getID();
 		}
 		//select amount from ticket where id=1;

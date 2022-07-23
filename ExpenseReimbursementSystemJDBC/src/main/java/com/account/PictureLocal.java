@@ -215,6 +215,8 @@ public class PictureLocal implements Picture {
 	}
 	public static void main(String[] args) {
 		Picture p0 = new PictureLocal();
+		String filepath="C:\\Users\\tomh0\\Pictures\\Screenshots\\Screenshot (8)";
+		p0.setPictureFile(filepath);
 		System.out.println(p0);
 		p0.displayPicture(100, 100);
 	}

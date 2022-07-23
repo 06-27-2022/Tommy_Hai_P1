@@ -3,11 +3,12 @@ package com.account;
 public class TicketLocal implements Ticket{
 
 	private int accountID;
-	private double ammount;
+	private double amount;
 	private String description;
 	private String status;
 	private String type;
 	private Picture picture;
+	
 	
 	public TicketLocal() {
 		status="p";
@@ -22,17 +23,26 @@ public class TicketLocal implements Ticket{
 	public int getAccountID() {
 		return accountID;
 	}
-
+	protected void setAccountID(int accountID) {
+		this.accountID=accountID;
+	}
 	@Override
 	public double getAmount() {
-		return ammount;
+		return amount;
+	}
+	protected void setAmount(int amount) {
+		this.amount=(double)((int)amount*100)/100;
 	}
 
 	@Override
 	public String getDescription() {
 		return description;
 	}
+	protected void setDescription(String description) {
+		this.description=description;
+	}
 
+	
 	@Override
 	public String getStatus() {
 		return status;
@@ -40,11 +50,6 @@ public class TicketLocal implements Ticket{
 
 	@Override
 	public boolean setStatus(boolean approve) {
-		if(approve) {
-			status="a";
-			return true;
-		}
-		status="d";
 		return false;
 	}
 
@@ -52,15 +57,15 @@ public class TicketLocal implements Ticket{
 	public String getType() {
 		return type;
 	}
-	public boolean setType() {
+	public boolean setType(String type) {
 		if(type.equals("Travel"))
-			type="Travel";
+			this.type="Travel";
 		else if(type.equals("Lodging"))
-			type="Lodging";
+			this.type="Lodging";
 		else if(type.equals("Food"))
-			type="Food";
+			this.type="Food";
 		else 
-			type="Other";
+			this.type="Other";
 		return true;
 	}
 

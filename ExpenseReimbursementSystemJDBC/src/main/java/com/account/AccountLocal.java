@@ -34,7 +34,8 @@ public class AccountLocal implements Account {
 
 	@Override
 	public boolean setName(String name) {
-		accountName="its reading the setters, not the variables";//name;
+		//accountName="its reading the setters, not the variables";
+		accountName=name;
 		return false;
 	}
 
