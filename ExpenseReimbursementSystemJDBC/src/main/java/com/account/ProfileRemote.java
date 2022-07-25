@@ -32,7 +32,11 @@ public class ProfileRemote implements Profile {
 		AccountID=accountID;
 		Name=name;
 		Address=address;
-		ProfilePicture = picture;
+//		ProfilePicture = picture;
+		if(picture!=null)
+			ProfilePicture=new PictureRemote(picture.getPictureFile().getName(),picture.getPictureFile().getAbsolutePath());
+		else
+			picture=new PictureRemote("temp", "temp");
 	}
 	private boolean local() {
 		if(PROFILE_ID==-1) {

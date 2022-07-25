@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +22,13 @@ public class LoginController extends Controller{
 //	private HttpServletResponse response;
 //	private PrintWriter writer;
 	
+	/**
+	 * called by dispatcher servlet for initializing the controller.
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public LoginController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		super(request,response);
 		accounts=new AccountList();
@@ -29,7 +36,11 @@ public class LoginController extends Controller{
 //		this.response=response;
 //		writer = response.getWriter();
 	}
-	
+	/**
+	 * called by dispatcher servlet for signing into an account
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void signIn()throws ServletException, IOException {
 		response.setStatus(200);
 		response.addHeader("Custom Header", "custom value");
@@ -48,15 +59,18 @@ public class LoginController extends Controller{
 
 		//signed in successfully
 		if(acc!=null ) {
-			writeln("Welcome "+acc.getName()+"\nRole:"+acc.getRole());			
+			writeln("Welcome "+acc.getName()+"<br>Role:"+acc.getRole());			
 			HttpSession session = request.getSession();
 			session.setAttribute("accountID", acc.getID());
 		}else {
 			//account does not exist
+			writer.write("Username and/or Password do not match");
 			response.setStatus(401);
 		}
 	}
-	
+	/**
+	 * called by dispatcher servlet for ending the current HttpSession
+	 */
 	public void logout() {
 		writer.write("<h2>Logout</h2><br>");
 		HttpSession session = request.getSession(false);
@@ -68,6 +82,11 @@ public class LoginController extends Controller{
 			writeln("No Account Signed In");
 	}
 	
+	/**
+	 * called by dispatcher servlet for creating new accounts
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void createAccount()throws ServletException, IOException {
 		response.setStatus(200);
 		response.addHeader("Custom Header", "custom value");
@@ -95,38 +114,48 @@ public class LoginController extends Controller{
 		writer.write("<p>"+str+"</p><br>");
 	}
 	
-	/*
-	 * returns Account if username and password match an account in acc arraylist
+	/**
+	 * @param username username of account
+	 * @param password password of account
+	 * @return Account if username and password match an account in acc arraylist
 	 * returns null if the user does not exist or password does not match
 	 */
 	private Account getAccount(String username,String password) {
 		//select id from account where name='m' and pass='m';
 		final String SQL="select id from account where name=? and pass=?";
 		String[]args= {username,password};
-		int accountID = (int)ConnectionUtil.stmtExecuteQuery(SQL,args);
-		if(accountID<0)
-			return null;
+		int accountID;
+		try{
+			accountID = (int)ConnectionUtil.stmtExecuteQuery(SQL,args);
+		}catch(NullPointerException e) {
+			return null;			
+		}
 		return new AccountRemote(accountID);
 	}
 		
-	/*
+	/**
 	 * Searches acc arraylist for an account using
-	 * the username provided
-	 * returns the account if a match is found
+	 * @param username the username provided
+	 * @return the account if a match is found
 	 */
 	private Account searchAccount(String username) {
 		final String SQL="select id from account where name=?";
 		int accountID;
 		try{
 			accountID = (int)ConnectionUtil.stmtExecuteQuery(SQL,username);
-		}catch(ArrayIndexOutOfBoundsException e) {//account does not exist
+		}catch(NullPointerException e) {//account does not exist
 			return null;
 		}
 		return new AccountRemote(accountID);
 	}
-
-	/*
-	 * Creates a new Account
+	/**
+	 * creates a new account
+	 * @param username username of account
+	 * @param password password of account
+	 * @param role Manager or Employee. Defaults to Employee if improper input provided
+	 * @return false if the username is already used by another account
+	 * @throws ServletException
+	 * @throws IOException
 	 */
 	private boolean addAccount(String username, String password,String role)throws ServletException, IOException  {
 		if(searchAccount(username)!=null)

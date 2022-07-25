@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.EmployeeController;
-import controller.LoginController;
-import controller.ManagerController;
-import controller.ProfileController;
+import com.controller.EmployeeController;
+import com.controller.LoginController;
+import com.controller.ManagerController;
+import com.controller.ProfileController;
 
 public class RequestHelper {
 	

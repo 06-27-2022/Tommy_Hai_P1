@@ -2,6 +2,7 @@ package com.servlets;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -41,17 +42,17 @@ public class PictureServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int pictureID=Integer.parseInt(request.getParameter("pictureID"));
-		Picture p;
-		if(pictureID>0) {
-			p=new PictureRemote(pictureID);			
-		}else
+		Picture p=new PictureRemote(pictureID);			
+		File file = p.getPictureFile();
+		if(file==null) {
+			response.setStatus(404);
 			return;
-				
+		}
 		//https://www.javatpoint.com/example-to-display-image-using-servlet
 		response.setContentType("image/jpeg");  
 	    ServletOutputStream out;  
 	    out = response.getOutputStream();  
-	    FileInputStream fin = new FileInputStream(p.getPictureFile());  
+	    FileInputStream fin = new FileInputStream(file);  
 	      
 	    BufferedInputStream bin = new BufferedInputStream(fin);  
 	    BufferedOutputStream bout = new BufferedOutputStream(out);  

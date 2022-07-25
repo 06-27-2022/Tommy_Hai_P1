@@ -134,19 +134,6 @@ public class ConnectionUtil {
 			else
 				stmt.setObject(i, o);
 		}
-//			if(o.getClass()==Integer.class)
-//				stmt.setInt(i,(int)o);
-//			else if(o.getClass()==Double.class)
-//				stmt.setDouble(i,(double)o);
-//			else if(o.getClass()==Character.class)
-//				stmt.setString(i,(String)o);
-//			else if(o.getClass()==String.class)
-//				stmt.setString(i,(String)o);					
-//			else if(o.getClass()==Boolean.class)
-//				stmt.setBoolean(i,(boolean)o);	
-//			else //avoid using this case, implement the missing type here instead
-//				stmt.setObject(i, o);
-//		}
 		
 	/**
 	 * Runs a ResultSet. Only works for querys requesting a single element
@@ -156,24 +143,38 @@ public class ConnectionUtil {
 	 */
 	public static Object stmtExecuteQuery(String SQL) {
 		Object[]args = {};
-		return stmtExecuteQuery2D(SQL,args)[0][0];
+		try{
+			return stmtExecuteQuery2D(SQL,args)[0][0];
+		}catch(ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 	public static Object stmtExecuteQuery(String SQL,Object o) {
 		Object[]args = {o};
-		return stmtExecuteQuery2D(SQL,args)[0][0];
+		try{
+			return stmtExecuteQuery2D(SQL,args)[0][0];
+		}catch(ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 	public static Object stmtExecuteQuery(String SQL, Object[]args) {
-		return stmtExecuteQuery2D(SQL,args)[0][0];
+		try{
+			return stmtExecuteQuery2D(SQL,args)[0][0];
+		}catch(ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 	
 	public static Object[][] stmtExecuteQuery2D(String SQL) {
 		Object[]args = {};
-		return stmtExecuteQuery2D(SQL,args);		
+		return stmtExecuteQuery2D(SQL,args);
 	}
+
 	public static Object[][] stmtExecuteQuery2D(String SQL,Object arg) {
 		Object[]args = {arg};
-		return stmtExecuteQuery2D(SQL,args);		
+		return stmtExecuteQuery2D(SQL,args);
 	}
+
 	/**
 	 * Runs a resultSet.
 	 * @param SQL used for a preparedstatement
@@ -216,6 +217,11 @@ public class ConnectionUtil {
 		}finally {
 			ConnectionUtil.closeConnection(conn,stmt,set);
 		}		
+		
+		//added this in so null gets returned instead of 
+		//throwing an array out of bounds exception wh
+		if(obj.length==0)
+			return null;		
 		return obj;
 	}
 	/**

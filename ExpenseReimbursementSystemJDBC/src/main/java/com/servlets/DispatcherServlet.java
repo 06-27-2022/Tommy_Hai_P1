@@ -37,9 +37,19 @@ public class DispatcherServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter w = response.getWriter();
-		w.write("<h1>Employee Reimbursement System</h1><br>");
 		response.setContentType("application/json");
+		PrintWriter w = response.getWriter();
+
+		//https://www.w3schools.com/html/html_tables.asp
+		w.write("<style>\r\n"
+				+ "table, th, td {\r\n"
+				+ "  border: 1px solid;\r\n"
+				+ "}\r\n"
+				+ "</style>\r\n"
+				+ "");
+
+		
+		w.write("<h1>Employee Reimbursement System</h1><br>");
 
 		//send to request helper
 		String httpVerb = request.getMethod(); //isolating the verb

@@ -1,16 +1,13 @@
 package com.jdbc;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import com.account.Picture;
 import com.account.PictureRemote;
 import com.account.Ticket;
 import com.account.TicketRemote;
 
-public class TicketList implements List<Ticket>{
+public class TicketList extends jdbcList<Ticket>{
 
 	final String TABLE;
 	
@@ -29,6 +26,16 @@ public class TicketList implements List<Ticket>{
 		else if(status.equalsIgnoreCase("d")||status.equalsIgnoreCase("denied"))
 			s=" and status='d'";
 		this.TABLE = "ticket where account="+accountID+s;
+	}
+	public TicketList(String status) {
+		String s="";
+		if(status.equalsIgnoreCase("p")||status.equalsIgnoreCase("pending"))
+			s=" where status='p'";
+		else if(status.equalsIgnoreCase("a")||status.equalsIgnoreCase("approved"))
+			s=" where status='a'";
+		else if(status.equalsIgnoreCase("d")||status.equalsIgnoreCase("denied"))
+			s=" where status='d'";
+		this.TABLE = "ticket"+s;
 	}
 	
 	public int size() {
@@ -81,105 +88,5 @@ public class TicketList implements List<Ticket>{
 			System.out.println(t.toString());
 			t.getPicture().displayPicture(100, 100);
 		}
-	}
-	
-	
-	
-	
-	
-	@Override
-	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public Iterator<Ticket> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean addAll(Collection<? extends Ticket> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean addAll(int index, Collection<? extends Ticket> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public TicketRemote set(int index, Ticket element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void add(int index, Ticket element) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public TicketRemote remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public ListIterator<Ticket> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public ListIterator<Ticket> listIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Ticket> subList(int fromIndex, int toIndex) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

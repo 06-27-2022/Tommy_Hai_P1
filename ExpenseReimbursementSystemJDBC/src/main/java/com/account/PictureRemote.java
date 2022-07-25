@@ -100,13 +100,9 @@ public class PictureRemote implements Picture {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}catch(NullPointerException e) {
+			return null;
 		}
-//		catch(ArrayIndexOutOfBoundsException e){//the cell is null
-//			// TODO Auto-generated catch block
-//			//e.printStackTrace();			
-//		}catch(NullPointerException e) {//inputstream returned nothing
-//			//e.printStackTrace();
-//		}
 		return null;
 	}
 	
@@ -133,7 +129,10 @@ public class PictureRemote implements Picture {
 		}
 		if(local()) {return false;}
 		//changing in picture table
-		final String SQL="insert into picture values(default,?)";
+		//final String SQL="insert into picture values(default,?)";
+
+						//update picture set image='asdfasdf' where id=1;
+		final String SQL="update picture set image=? where id="+getID();
 		File[]args= {PictureFile};
 		return ConnectionUtil.stmtExecute(SQL, args);		
 	}
@@ -261,10 +260,13 @@ public class PictureRemote implements Picture {
 		return true;
 	}
 	public static void main(String[] args) {
-		PictureRemote p0 = new PictureRemote(1);
+		PictureRemote p0 = new PictureRemote(7);
 		PictureRemote p1 = new PictureRemote(p0.getID());
 		System.out.println(p0+"\n"+p1);
+		p0.setPictureFile("C:\\Users\\tomh0\\Pictures\\Screenshots\\Screenshot (10).png");
+		
 		p0.displayPicture(100, 100);
 		p1.displayPicture(100, 100);
+		
 	}
 }
