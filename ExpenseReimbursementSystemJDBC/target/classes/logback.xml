@@ -10,7 +10,7 @@ https://github.com/06-27-2022/Content-Repository/blob/main/Logback/LogbackExampl
 		</encoder>
 	</appender>
 
-	<logger name="com.logERS.Logback" level="trace">
+	<logger name="com.util.OutputUtil" level="trace">
 		<appender-ref ref="FILE"/>
 	</logger>
 

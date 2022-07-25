@@ -8,3 +8,5 @@
 22:12:48.289 [main] TRACE com.logERS.Logback - Entering Login Menu
 22:12:48.289 [main] TRACE com.logERS.Logback - Traversing the Login menu
 22:13:01.304 [main] TRACE com.logERS.Logback - End Program
+14:27:50.159 [main] TRACE com.util.OutputUtil - test
+15:08:14.785 [main] TRACE com.util.OutputUtil - test

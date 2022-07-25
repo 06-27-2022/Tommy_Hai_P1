@@ -45,8 +45,7 @@ public abstract class Controller {
 	 * @param height height of the picture
 	 */
 	protected void displayPicture(Picture p, int width, int height){
-		int pictureID=p.getID();
-		writer.write("<img src=http://localhost:8080/check/picture?pictureID="+pictureID+" width=\""+width+"\" height=\""+height+"\">");
+		writer.write(displayPictureRaw(p,width,height));
 	}
 	/**
 	 * returns the img tag but as a string instead of directly writing it into the printwriter
@@ -57,7 +56,7 @@ public abstract class Controller {
 	 */
 	protected String displayPictureRaw(Picture p, int width, int height){
 		int pictureID=p.getID();
-		return "<img src=http://localhost:8080/check/picture?pictureID="+pictureID+" width=\""+width+"\" height=\""+height+"\">";
+		return "<img src=\"http://localhost:8080/check/picture?pictureID="+pictureID+"&r="+Math.random()+"\" width=\""+width+"\" height=\""+height+"\">";
 	}
 
 	/**

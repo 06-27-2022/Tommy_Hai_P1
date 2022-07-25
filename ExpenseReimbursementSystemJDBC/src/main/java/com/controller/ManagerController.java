@@ -85,7 +85,7 @@ public class ManagerController extends EmployeeController {
 		String status=request.getParameter("status");
 		
 		if(ticket.getAccountID()==account.getID()) {
-			writer.write("You cannot approve a ticket you submitted yourself");
+			writer.write("You cannot process a ticket you submitted yourself");
 		}
 		else if(!ticket.getStatus().equalsIgnoreCase("p")) {
 			writer.write("This ticket has already been processed");

@@ -20,25 +20,25 @@ public class RequestHelper {
 
 		String resource = request.getRequestURI().replace(url, "");			
 		switch (resource) {
-		case "/login":
-			//sign into an existing account
-			new LoginController(request,response).signIn();
-			break;
-		case "/ticket":
+		case "/employee/ticket":
 			//view tickets of signed in account
 			new EmployeeController(request,response).viewTickets();
 			break;
-		case "/pending-tickets":
+		case "/manager/ticket":
+			//view tickets of signed in account
+			new ManagerController(request,response).viewTickets();
+			break;
+		case "/manager/pending-tickets":
 			//process pending tickets
 			new ManagerController(request,response).viewPendingTickets();
 			break;
-		case "/edit-accounts":
+		case "/manager/edit-accounts":
 			new ManagerController(request,response).viewAccounts();
 			break;
-		case "/search-profile":
+		case "/profile/search":
 			new ProfileController(request,response).searchProfile();
 			break;
-		case "/select-profile":
+		case "/profile/select":
 			new ProfileController(request,response).selectProfile();;
 			break;
 		case "/profile":
@@ -61,6 +61,10 @@ public class RequestHelper {
 
 		switch (resource) {
 		case "/login":
+			//sign into an existing account
+			new LoginController(request,response).signIn();
+			break;
+		case "/create-account":
 			//create a new account and add it to the database
 			new LoginController(request, response).createAccount();
 			break;
@@ -68,19 +72,23 @@ public class RequestHelper {
 			//logout of the account login-ed to
 			new LoginController(request,response).logout();
 			break;
-		case "/ticket":
+		case "/employee/ticket":
 			//create and add a ticket to the database
 			new EmployeeController(request,response).submitTicket();
 			break;
-		case "/pending-tickets":
+		case "/manager/ticket":
+			//create and add a ticket to the database
+			new ManagerController(request,response).submitTicket();
+			break;
+		case "/manager/pending-tickets":
 			//process pending tickets
 			new ManagerController(request,response).processPendingTickets();
 			break;
-		case "/edit-accounts":
+		case "/manager/edit-accounts":
 			new ManagerController(request,response).editAccounts();
 			break;
 		case "/profile":
-			new ProfileController(request,response).editProfile();;
+			new ProfileController(request,response).editProfile();
 			break;
 		default:
 			//resource does not exist

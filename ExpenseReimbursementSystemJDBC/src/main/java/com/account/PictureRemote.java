@@ -184,7 +184,7 @@ public class PictureRemote implements Picture {
 		//http://www.java2s.com/Code/Java/2D-Graphics-GUI/DrawanImageandsavetopng.htm
 		Font font = new Font("TimesRoman", Font.BOLD, 20);
 		ig2.setFont(font);
-		String message = "<"+FILENAME+">";
+		String message = "<No Picture>";
 		FontMetrics fontMetrics = ig2.getFontMetrics();
 		int stringWidth = fontMetrics.stringWidth(message);
 		int stringHeight = fontMetrics.getAscent();

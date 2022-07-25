@@ -36,7 +36,7 @@ public class ProfileRemote implements Profile {
 		if(picture!=null)
 			ProfilePicture=new PictureRemote(picture.getPictureFile().getName(),picture.getPictureFile().getAbsolutePath());
 		else
-			picture=new PictureRemote("temp", "temp");
+			picture=new PictureRemote("temp", "");
 	}
 	private boolean local() {
 		if(PROFILE_ID==-1) {

@@ -35,7 +35,7 @@ public class TicketRemote implements Ticket{
 	public TicketRemote(int accountID, double amount, String description,String type, Picture image) {
 		this.TICKET_ID = -1;
 		AccountID=accountID;
-		Amount=(double)((int)amount*100)/100;
+		Amount=(double)((int)(amount*100))/100;
 		Description=description;
 		if(type.equals("Travel"))
 			Type="Travel";
@@ -48,7 +48,7 @@ public class TicketRemote implements Ticket{
 		if(image!=null)
 			Image=new PictureRemote(image.getPictureFile().getName(),image.getPictureFile().getAbsolutePath());
 		else
-			image=new PictureRemote("temp", "temp");
+			image=new PictureRemote("temp", "");
 	}
 	
 		//insert into ticket (account,amount,description,status)values(1,22.34,'asdfasdf','p')returning id;

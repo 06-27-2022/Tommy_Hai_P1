@@ -63,7 +63,7 @@ public class ProfileController extends Controller{
 	 * the profiles displayed are chosen by the name on the profile.
 	 */
 	public void searchProfile() {
-		if(!permission())return;
+		//if(!permission())return;
 		//search name
 		String name=request.getParameter("name");
 
@@ -109,7 +109,7 @@ public class ProfileController extends Controller{
 	 * that owns the profile
 	 */
 	public void selectProfile() {		
-		if(!permission())return;
+		//if(!permission())return;
 		//String user = input();
 		String user=request.getParameter("user");
 		final String SQL="select id from account where name=?";
@@ -157,6 +157,7 @@ public class ProfileController extends Controller{
 	private void displayProfile(Profile p) {
 		displayPicture(p.getPicture(),100,100);
 		writer.write("<br>PictureID:"+p.getPicture().getID());		
+		writer.write("<br>filepath:"+p.getPicture().getPictureFile().getAbsolutePath());		
 		writer.write("<br>Name:"+p.getName());
 		writer.write("<br>Address:"+p.getAddress());
 	}

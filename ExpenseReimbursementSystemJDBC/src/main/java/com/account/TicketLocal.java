@@ -31,7 +31,7 @@ public class TicketLocal implements Ticket{
 		return amount;
 	}
 	protected void setAmount(int amount) {
-		this.amount=(double)((int)amount*100)/100;
+		this.amount=(double)((int)(amount*100))/100;
 	}
 
 	@Override

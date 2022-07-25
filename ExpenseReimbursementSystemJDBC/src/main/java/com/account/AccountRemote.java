@@ -160,7 +160,7 @@ public class AccountRemote implements Account{
 		final String SQL="select \"id\" from profile where account="+getID();
 		try{
 			return new ProfileRemote((int) ConnectionUtil.stmtExecuteQuery(SQL));
-		}catch(NullPointerException e) {//no profile
+		}catch(NullPointerException e) {//no profilez
 			createProfile();
 			return getProfile();
 		}
