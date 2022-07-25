@@ -53,19 +53,21 @@ public class ManagerController extends EmployeeController {
 		
 		List<Ticket>tList=new TicketList("p");
 		int size=tList.size();
-		String[][]table=new String[size+1][5];
-		table[0][0]="Amount";
-		table[0][1]="Description";
-		table[0][2]="Status";
-		table[0][3]="Type";
-		table[0][4]="Picture";
+		String[][]table=new String[size+1][6];
+		table[0][0]="TicketID";
+		table[0][1]="Amount";
+		table[0][2]="Description";
+		table[0][3]="Status";
+		table[0][4]="Type";
+		table[0][5]="Picture";
 		for(int i=0;i<size;i++) {
 			Ticket t = tList.get(i);			
-			table[i+1][0]="$"+t.getAmount();
-			table[i+1][1]=t.getDescription();
-			table[i+1][2]=t.getStatus();
-			table[i+1][3]=t.getType();
-			table[i+1][4]=displayPictureRaw(t.getPicture(), 50, 50);
+			table[i+1][0]=""+t.getID();
+			table[i+1][1]="$"+t.getAmount();
+			table[i+1][2]=t.getDescription();
+			table[i+1][3]=t.getStatus();
+			table[i+1][4]=t.getType();
+			table[i+1][5]=displayPictureRaw(t.getPicture(), 50, 50);
 		}		
 		displayTable(table,true);
 	}

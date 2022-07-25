@@ -41,24 +41,24 @@ public class DispatcherServlet extends HttpServlet {
 		PrintWriter w = response.getWriter();
 
 		//https://www.w3schools.com/html/html_tables.asp
-		w.write("<style>\r\n"
-				+ "table, th, td {\r\n"
-				+ "  border: 1px solid;\r\n"
-				+ "}\r\n"
-				+ "</style>\r\n"
-				+ "");
+		w.write("<style>table, th, td {border: 1px solid;}</style>");
 
 		
 		w.write("<h1>Employee Reimbursement System</h1><br>");
 
-		//send to request helper
-		String httpVerb = request.getMethod(); //isolating the verb
-		if(httpVerb.equals("GET")) {
-			RequestHelper.processGet(request, response);
-		} else if(httpVerb.equals("POST")) {
-			RequestHelper.processPost(request, response);
+		try {
+			//send to request helper
+			String httpVerb = request.getMethod(); //isolating the verb
+			if(httpVerb.equals("GET"))
+				RequestHelper.processGet(request, response);
+			else if(httpVerb.equals("POST")) 
+				RequestHelper.processPost(request, response);		
+		}catch(Exception e) {
+			//catch any unhandled exceptions 
+			//to allow the method o finish
+			response.setStatus(500);
+			e.printStackTrace();
 		}
-		
 		w.write("<br><p>Made by Tommy Hai</p>");
 	}
 

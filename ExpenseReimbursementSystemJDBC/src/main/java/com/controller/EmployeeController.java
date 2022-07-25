@@ -103,6 +103,7 @@ public class EmployeeController extends Controller {
 
 	/**
 	 * view tickets of the signed in employee inside of a table
+	 * defaults to all if request parameter order does not have a proper input
 	 * @throws IOException
 	 */
 	public void viewTickets() throws IOException {
@@ -114,14 +115,16 @@ public class EmployeeController extends Controller {
 		writer.write("<h3>Order:"+order+"</h3><br>");
 		List<Ticket>tlist=null;
 		if(order.equalsIgnoreCase("all"))
-			tlist=new TicketList();
+			tlist=new TicketList(account.getID());
 		else if(order.equalsIgnoreCase("pending"))
 			tlist=new TicketList(account.getID(),"p");
 		else if(order.equalsIgnoreCase("approved")) 
 			tlist=new TicketList(account.getID(),"a");
 		else if(order.equalsIgnoreCase("denied")) 
 			tlist=new TicketList(account.getID(),"d");
-
+		else
+			tlist=new TicketList(account.getID());
+		
 		//check if there are tickets to write
 		int size = tlist.size();
 		if(size==0) {

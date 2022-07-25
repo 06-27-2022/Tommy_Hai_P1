@@ -49,7 +49,7 @@ public class PictureServlet extends HttpServlet {
 			return;
 		}
 		//https://www.javatpoint.com/example-to-display-image-using-servlet
-		response.setContentType("image/jpeg");  
+		response.setContentType("image/png");  
 	    ServletOutputStream out;  
 	    out = response.getOutputStream();  
 	    FileInputStream fin = new FileInputStream(file);  
