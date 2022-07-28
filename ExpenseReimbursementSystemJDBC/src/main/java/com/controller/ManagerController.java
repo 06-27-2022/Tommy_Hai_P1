@@ -134,6 +134,11 @@ public class ManagerController extends EmployeeController {
 		if(!permission()) {return;}
 
 		int accountID=Integer.parseInt(request.getParameter("accountID"));
+		if(accountID==account.getID()) {
+			writer.write("You cannot change your own role");
+			return;
+		}
+			
 		Account account=new AccountRemote(accountID);
 		String role=request.getParameter("role");
 		try {			
